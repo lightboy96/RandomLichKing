@@ -1,3 +1,5 @@
+import ui.LichKingUi;
+
 import javax.sound.sampled.*;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.SimpleAttributeSet;

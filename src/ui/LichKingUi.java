@@ -1,3 +1,7 @@
+package ui;
+
+import audio.SoundPlayer;
+
 import javax.swing.text.AttributeSet;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -14,8 +18,10 @@ public class LichKingUi extends javax.swing.JFrame {
     private final boolean starting;
     private boolean exiting;
     private javax.swing.JTextPane jConsole;
+    private final SoundPlayer soundPlayer;
 
-    public LichKingUi() {
+    public LichKingUi(SoundPlayer soundPlayer) {
+        this.soundPlayer = soundPlayer;
         this.starting = true;
         this.exiting = false;
         this.newYear = false;
@@ -84,7 +90,7 @@ public class LichKingUi extends javax.swing.JFrame {
                 Timestamp exitTimeStamp = new Timestamp(System.currentTimeMillis());
                 appendToPane("[" + SIMPLE_DATE_FORMAT.format(exitTimeStamp) + "] " + "Arthas says: I see... only... darkness... before... me... \n\n", Color.CYAN);
                 appendToPane("\n", Color.CYAN);
-                playSound("data/OnlyDarkness.wav");
+                soundPlayer.playSound("data/OnlyDarkness.wav");
 
                 Thread.sleep(9000);
 
@@ -93,7 +99,7 @@ public class LichKingUi extends javax.swing.JFrame {
                 dispose();
                 System.exit(0);
             } catch (Exception ex) {
-                Logger.getLogger(RandomLichKingV2.class.getName()).log(Level.SEVERE, null, ex);
+               // Logger.getLogger(RandomLichKingV2.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
 
