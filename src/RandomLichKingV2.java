@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 
 
 public class RandomLichKingV2 extends javax.swing.JFrame {
+    //TODO: ADHERE TO OOP AND SOLID. THIS CLASS SHOULD ONLY HAVE THE main method
     private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("HH:mm");
     static DateFormat newYearDateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private static int minWait;
@@ -46,11 +47,11 @@ public class RandomLichKingV2 extends javax.swing.JFrame {
     }
 
     private static void appendToPane(String msg, Color c) {
-        StyleContext sc = StyleContext.getDefaultStyleContext();
-        AttributeSet attributeSet = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
+        StyleContext styleContext = StyleContext.getDefaultStyleContext();
+        AttributeSet attributeSet = styleContext.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
 
-        attributeSet = sc.addAttribute(attributeSet, StyleConstants.FontFamily, "Lucida Console");
-        attributeSet = sc.addAttribute(attributeSet, StyleConstants.Alignment, StyleConstants.ALIGN_JUSTIFIED);
+        attributeSet = styleContext.addAttribute(attributeSet, StyleConstants.FontFamily, "Lucida Console");
+        attributeSet = styleContext.addAttribute(attributeSet, StyleConstants.Alignment, StyleConstants.ALIGN_JUSTIFIED);
 
         int len = jConsole.getDocument().getLength();
         jConsole.setCaretPosition(len);
@@ -107,10 +108,9 @@ public class RandomLichKingV2 extends javax.swing.JFrame {
     }
 
     private static Thread getNewYearThread() {
-        Thread newYearThread;
-        newYearThread = new Thread(() -> {
+        Thread newYearThread = new Thread(() -> {
             try {
-                Date date = newYearDateFormatter.parse("2023-12-31 23:59:40");
+                Date date = newYearDateFormatter.parse("2023-12-31 23:59:40"); //TODO: make this dynamic
                 //Testing date:
                 //Date date = newYearDateFormatter.parse("2021-12-25 18:59:40");
                 Timer timer = new Timer();
@@ -186,7 +186,7 @@ public class RandomLichKingV2 extends javax.swing.JFrame {
     }
 
     private void KillButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        Thread tExit = new Thread(() -> {
+        Thread threadExit = new Thread(() -> {
             try {
                 exiting = true;
                 Timestamp exitTimeStamp = new Timestamp(System.currentTimeMillis());
@@ -206,10 +206,10 @@ public class RandomLichKingV2 extends javax.swing.JFrame {
         });
 
         if (!starting && !newYear)
-            tExit.start();
+            threadExit.start();
     }
 
-    private static class NewYearTask extends TimerTask {
+    private static class NewYearTask extends TimerTask { //TODO: Move to own class
         @Override
         public void run() {
             try {
@@ -241,16 +241,16 @@ public class RandomLichKingV2 extends javax.swing.JFrame {
                 appendToPane("The Lich King says: Happy New Year, insects! \n\n", Color.CYAN);
                 appendToPane("\n", Color.CYAN);
                 Thread.sleep(3000);
-                appendToPane("Everyone have earned the achievment: ", Color.WHITE);
+                appendToPane("Everyone have earned the achievement: ", Color.WHITE);
                 appendToPane("[Happy New Year, Insects!]\n\n", Color.ORANGE);
                 appendToPane("\n", Color.CYAN);
-                playSound("data/AchievmentSound.wav");
+                playSound("data/AchievementSound.wav");
                 Desktop.getDesktop().open(new File("data/Achi/Happy New Year Achievement.png"));
 
                 Desktop.getDesktop().open(new File("data/Fireworks.mp4"));
                 Thread.sleep(60000);
-                Runtime rt = Runtime.getRuntime();
-                rt.exec("taskkill /F /IM Microsoft.Photos.exe");
+                Runtime runtime = Runtime.getRuntime();
+                runtime.exec("taskkill /F /IM Microsoft.Photos.exe");
 
                 Desktop.getDesktop().open(new File("data/LichKingAnimatedWallpaper.mp4"));
                 newYear = false;
