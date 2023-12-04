@@ -23,3 +23,13 @@ hs_err_pid*
 replay_pid*
 .DS_Store
 nbproject/private/private.xml
+
+
+.idea/
+*.iml
+
+.dist/
+
+.build/
+
+.lib/
