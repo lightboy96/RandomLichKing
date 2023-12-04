@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 
 
 public class RandomLichKingV2 extends javax.swing.JFrame {
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+    private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("HH:mm");
     static DateFormat newYearDateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private static int minWait;
     private static int maxWait;
@@ -47,22 +47,22 @@ public class RandomLichKingV2 extends javax.swing.JFrame {
 
     private static void appendToPane(String msg, Color c) {
         StyleContext sc = StyleContext.getDefaultStyleContext();
-        AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
+        AttributeSet attributeSet = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
 
-        aset = sc.addAttribute(aset, StyleConstants.FontFamily, "Lucida Console");
-        aset = sc.addAttribute(aset, StyleConstants.Alignment, StyleConstants.ALIGN_JUSTIFIED);
+        attributeSet = sc.addAttribute(attributeSet, StyleConstants.FontFamily, "Lucida Console");
+        attributeSet = sc.addAttribute(attributeSet, StyleConstants.Alignment, StyleConstants.ALIGN_JUSTIFIED);
 
         int len = jConsole.getDocument().getLength();
         jConsole.setCaretPosition(len);
-        jConsole.setCharacterAttributes(aset, false);
+        jConsole.setCharacterAttributes(attributeSet, false);
         jConsole.replaceSelection(msg);
     }
 
     static void playSound(String soundFile) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
-        File f = new File("./" + soundFile);
-        AudioInputStream audioIn = AudioSystem.getAudioInputStream(f.toURI().toURL());
+        File file = new File("./" + soundFile);
+        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file.toURI().toURL());
         Clip clip = AudioSystem.getClip();
-        clip.open(audioIn);
+        clip.open(audioInputStream);
         clip.start();
     }
 
@@ -73,8 +73,8 @@ public class RandomLichKingV2 extends javax.swing.JFrame {
         try {
             Desktop.getDesktop().open(new File("data/LichKingAnimatedWallpaper.mp4"));
 
-            Timestamp welcomeTS = new Timestamp(System.currentTimeMillis());
-            appendToPane("[" + sdf.format(welcomeTS) + "] " + "The Lich King says: I suppose a welcome is in order... So welcome, insects, welcome to MY WORLD! \n\n", Color.CYAN);
+            Timestamp welcomTimeStamp = new Timestamp(System.currentTimeMillis());
+            appendToPane("[" + SIMPLE_DATE_FORMAT.format(welcomTimeStamp) + "] " + "The Lich King says: I suppose a welcome is in order... So welcome, insects, welcome to MY WORLD! \n\n", Color.CYAN);
 
             playSound("data/Welcome.wav");
             Thread.sleep(15000);
@@ -85,8 +85,8 @@ public class RandomLichKingV2 extends javax.swing.JFrame {
 
             while (!exiting) {
                 if (!newYear) {
-                    Timestamp dormantTS = new Timestamp(System.currentTimeMillis());
-                    appendToPane("[" + sdf.format(dormantTS) + "] " + "The Lich King is dormant... \n\n", Color.WHITE);
+                    Timestamp dormantTimeStamp = new Timestamp(System.currentTimeMillis());
+                    appendToPane("[" + SIMPLE_DATE_FORMAT.format(dormantTimeStamp) + "] " + "The Lich King is dormant... \n\n", Color.WHITE);
                 }
 
                 int random = 0;
@@ -94,22 +94,21 @@ public class RandomLichKingV2 extends javax.swing.JFrame {
                 Thread.sleep(random);
 
                 if (!exiting && !newYear) {
-                    Timestamp yellTS = new Timestamp(System.currentTimeMillis());
-                    appendToPane("[" + sdf.format(yellTS) + "] " + "The Lich King yells: Frostmourne hungers! \n", Color.red);
+                    Timestamp yellTimeStamp = new Timestamp(System.currentTimeMillis());
+                    appendToPane("[" + SIMPLE_DATE_FORMAT.format(yellTimeStamp) + "] " + "The Lich King yells: Frostmourne hungers! \n", Color.red);
                     appendToPane("\n", Color.red);
                     playSound("data/FrostmourneHungers.wav");
                     Thread.sleep(7000);
                 }
             }
-        } catch (Exception ex) {
-            Logger.getLogger(RandomLichKingV2.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception exception) {
+            Logger.getLogger(RandomLichKingV2.class.getName()).log(Level.SEVERE, null, exception);
         }
     }
 
     private static Thread getNewYearThread() {
         Thread newYearThread;
-        newYearThread = new Thread(() ->
-        {
+        newYearThread = new Thread(() -> {
             try {
                 Date date = newYearDateFormatter.parse("2023-12-31 23:59:40");
                 //Testing date:
@@ -190,15 +189,15 @@ public class RandomLichKingV2 extends javax.swing.JFrame {
         Thread tExit = new Thread(() -> {
             try {
                 exiting = true;
-                Timestamp exitTS = new Timestamp(System.currentTimeMillis());
-                appendToPane("[" + sdf.format(exitTS) + "] " + "Arthas says: I see... only... darkness... before... me... \n\n", Color.CYAN);
+                Timestamp exitTimeStamp = new Timestamp(System.currentTimeMillis());
+                appendToPane("[" + SIMPLE_DATE_FORMAT.format(exitTimeStamp) + "] " + "Arthas says: I see... only... darkness... before... me... \n\n", Color.CYAN);
                 appendToPane("\n", Color.CYAN);
                 playSound("data/OnlyDarkness.wav");
 
                 Thread.sleep(9000);
 
-                Runtime rt = Runtime.getRuntime();
-                rt.exec("taskkill /F /IM Video.UI.exe");
+                Runtime runtime = Runtime.getRuntime();
+                runtime.exec("taskkill /F /IM Video.UI.exe");
                 dispose();
                 System.exit(0);
             } catch (Exception ex) {
@@ -218,7 +217,7 @@ public class RandomLichKingV2 extends javax.swing.JFrame {
                 Thread.sleep(10000);
                 Timestamp newYearTS = new Timestamp(System.currentTimeMillis());
                 playSound("data/Lich King countdown.wav");
-                appendToPane("[" + sdf.format(newYearTS) + "] " + "The Lich King says: 10 \n\n", Color.CYAN);
+                appendToPane("[" + SIMPLE_DATE_FORMAT.format(newYearTS) + "] " + "The Lich King says: 10 \n\n", Color.CYAN);
                 Thread.sleep(1000);
                 appendToPane("The Lich King says: 9 \n\n", Color.CYAN);
                 Thread.sleep(1000);
