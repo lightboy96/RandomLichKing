@@ -6,6 +6,8 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -29,36 +31,27 @@ public class RandomLichKingV2 extends javax.swing.JFrame {
     private static boolean starting;
     private static boolean exiting;
     private static boolean newYear;
-    private static javax.swing.JTextPane jConsole;
+   // private static javax.swing.JTextPane jConsole;
 
     public RandomLichKingV2() {
-        initComponents();
-
-        starting = true;
-        exiting = false;
-        newYear = false;
 
         // Test wait times
         //minWait = 10000; // 10 sec
         //maxWait = 30000; // 30 sec
 
-        // Prod wait times
-        minWait = 300000; // 5 min
-        maxWait = 1200000; // 20 min
-
     }
 
-    private static void appendToPane(String msg, Color c) {
+    private static void appendToPane(LichKingUi ui, String msg, Color c) {
         StyleContext styleContext = StyleContext.getDefaultStyleContext();
         AttributeSet attributeSet = styleContext.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
 
         attributeSet = styleContext.addAttribute(attributeSet, StyleConstants.FontFamily, "Lucida Console");
         attributeSet = styleContext.addAttribute(attributeSet, StyleConstants.Alignment, StyleConstants.ALIGN_JUSTIFIED);
 
-        int len = jConsole.getDocument().getLength();
-        jConsole.setCaretPosition(len);
-        jConsole.setCharacterAttributes(attributeSet, false);
-        jConsole.replaceSelection(msg);
+        int len = ui.getConsoleTextPane().getDocument().getLength();
+        ui.getConsoleTextPane().setCaretPosition(len);
+        ui.getConsoleTextPane().setCharacterAttributes(attributeSet, false);
+        ui.getConsoleTextPane().replaceSelection(msg);
     }
 
     static void playSound(String soundFile) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
@@ -71,35 +64,50 @@ public class RandomLichKingV2 extends javax.swing.JFrame {
 
     public static void main(String[] args) {
 
-        java.awt.EventQueue.invokeLater(() -> new RandomLichKingV2().setVisible(true));
+        starting = true;
+        exiting = false;
+        newYear = false;
+
+        // Prod wait times
+        minWait = 300000; // 5 min
+        maxWait = 1200000; // 20 min
+
+        LichKingUi ui = new LichKingUi();
+        ui.getKillButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                KillButtonActionPerformed(ui, e);
+            }
+        });
+
+        java.awt.EventQueue.invokeLater(() -> ui.setVisible(true));
 
         try {
-            Desktop.getDesktop().open(new File("data/LichKingAnimatedWallpaper.mp4"));
-
+           // Desktop.getDesktop().open(new File("data/LichKingAnimatedWallpaper.mp4"));
+           // Thread.sleep(1000);
             Timestamp welcomTimeStamp = new Timestamp(System.currentTimeMillis());
-            appendToPane("[" + SIMPLE_DATE_FORMAT.format(welcomTimeStamp) + "] " + "The Lich King says: I suppose a welcome is in order... So welcome, insects, welcome to MY WORLD! \n\n", Color.CYAN);
+            appendToPane(ui, "[" + SIMPLE_DATE_FORMAT.format(welcomTimeStamp) + "] " + "The Lich King says: I suppose a welcome is in order... So welcome, insects, welcome to MY WORLD! \n\n", Color.CYAN);
 
             playSound("data/Welcome.wav");
             Thread.sleep(15000);
             starting = false;
 
-            Thread newYearThread = getNewYearThread();
+            Thread newYearThread = getNewYearThread(ui);
             newYearThread.start();
 
             while (!exiting) {
                 if (!newYear) {
                     Timestamp dormantTimeStamp = new Timestamp(System.currentTimeMillis());
-                    appendToPane("[" + SIMPLE_DATE_FORMAT.format(dormantTimeStamp) + "] " + "The Lich King is dormant... \n\n", Color.WHITE);
+                    appendToPane(ui, "[" + SIMPLE_DATE_FORMAT.format(dormantTimeStamp) + "] " + "The Lich King is dormant... \n\n", Color.WHITE);
                 }
 
-                int random = 0;
-                random = new Random().nextInt((maxWait - minWait) + 1) + minWait;
+                int random = new Random().nextInt((maxWait - minWait) + 1) + minWait;
                 Thread.sleep(random);
 
                 if (!exiting && !newYear) {
                     Timestamp yellTimeStamp = new Timestamp(System.currentTimeMillis());
-                    appendToPane("[" + SIMPLE_DATE_FORMAT.format(yellTimeStamp) + "] " + "The Lich King yells: Frostmourne hungers! \n", Color.red);
-                    appendToPane("\n", Color.red);
+                    appendToPane(ui, "[" + SIMPLE_DATE_FORMAT.format(yellTimeStamp) + "] " + "The Lich King yells: Frostmourne hungers! \n", Color.red);
+                    appendToPane(ui, "\n", Color.red);
                     playSound("data/FrostmourneHungers.wav");
                     Thread.sleep(7000);
                 }
@@ -109,14 +117,14 @@ public class RandomLichKingV2 extends javax.swing.JFrame {
         }
     }
 
-    private static Thread getNewYearThread() {
+    private static Thread getNewYearThread(LichKingUi ui) {
         Thread newYearThread = new Thread(() -> {
             try {
                 Date date = newYearDateFormatter.parse("2023-12-31 23:59:40"); //TODO: make this dynamic
                 //Testing date:
                 //Date date = newYearDateFormatter.parse("2021-12-25 18:59:40");
                 Timer timer = new Timer();
-                timer.schedule(new NewYearTask(), date);
+                timer.schedule(new NewYearTask(ui), date);
             } catch (ParseException ex) {
                 Logger.getLogger(RandomLichKingV2.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -125,7 +133,7 @@ public class RandomLichKingV2 extends javax.swing.JFrame {
     }
 
 
-    private void initComponents() {
+   /* private void initComponents() {
 
         javax.swing.JPanel panelConsole = new javax.swing.JPanel();
         javax.swing.JScrollPane jScrollPane1 = new javax.swing.JScrollPane();
@@ -163,7 +171,7 @@ public class RandomLichKingV2 extends javax.swing.JFrame {
         killButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         killButton.setFocusable(false);
         killButton.setRequestFocusEnabled(false);
-        killButton.addActionListener(this::KillButtonActionPerformed);
+       // killButton.addActionListener(this::KillButtonActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -185,22 +193,22 @@ public class RandomLichKingV2 extends javax.swing.JFrame {
         );
 
         pack();
-    }
+    } */
 
-    private void KillButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    private static void KillButtonActionPerformed(LichKingUi ui, java.awt.event.ActionEvent evt) {
         Thread threadExit = new Thread(() -> {
             try {
                 exiting = true;
                 Timestamp exitTimeStamp = new Timestamp(System.currentTimeMillis());
-                appendToPane("[" + SIMPLE_DATE_FORMAT.format(exitTimeStamp) + "] " + "Arthas says: I see... only... darkness... before... me... \n\n", Color.CYAN);
-                appendToPane("\n", Color.CYAN);
+                appendToPane(ui, "[" + SIMPLE_DATE_FORMAT.format(exitTimeStamp) + "] " + "Arthas says: I see... only... darkness... before... me... \n\n", Color.CYAN);
+                appendToPane(ui, "\n", Color.CYAN);
                 playSound("data/OnlyDarkness.wav");
 
                 Thread.sleep(9000);
 
-                Runtime runtime = Runtime.getRuntime();
-                runtime.exec("taskkill /F /IM Video.UI.exe");
-                dispose();
+                //Runtime runtime = Runtime.getRuntime();
+                //runtime.exec("taskkill /F /IM Video.UI.exe");
+                //dispose();
                 System.exit(0);
             } catch (Exception ex) {
                 Logger.getLogger(RandomLichKingV2.class.getName()).log(Level.SEVERE, null, ex);
@@ -212,6 +220,12 @@ public class RandomLichKingV2 extends javax.swing.JFrame {
     }
 
     private static class NewYearTask extends TimerTask { //TODO: Move to own class
+        private final LichKingUi ui;
+
+        public NewYearTask(LichKingUi ui) {
+            this.ui = ui;
+        }
+
         @Override
         public void run() {
             try {
@@ -219,40 +233,40 @@ public class RandomLichKingV2 extends javax.swing.JFrame {
                 Thread.sleep(10000);
                 Timestamp newYearTS = new Timestamp(System.currentTimeMillis());
                 playSound("data/Lich King countdown.wav");
-                appendToPane("[" + SIMPLE_DATE_FORMAT.format(newYearTS) + "] " + "The Lich King says: 10 \n\n", Color.CYAN);
+                appendToPane(ui, "[" + SIMPLE_DATE_FORMAT.format(newYearTS) + "] " + "The Lich King says: 10 \n\n", Color.CYAN);
                 Thread.sleep(1000);
-                appendToPane("The Lich King says: 9 \n\n", Color.CYAN);
+                appendToPane(ui, "The Lich King says: 9 \n\n", Color.CYAN);
                 Thread.sleep(1000);
-                appendToPane("The Lich King says: 8 \n\n", Color.CYAN);
+                appendToPane(ui, "The Lich King says: 8 \n\n", Color.CYAN);
                 Thread.sleep(1000);
-                appendToPane("The Lich King says: 7 \n\n", Color.CYAN);
+                appendToPane(ui, "The Lich King says: 7 \n\n", Color.CYAN);
                 Thread.sleep(1000);
-                appendToPane("The Lich King says: 6 \n\n", Color.CYAN);
+                appendToPane(ui, "The Lich King says: 6 \n\n", Color.CYAN);
                 Thread.sleep(1000);
-                appendToPane("The Lich King says: 5 \n\n", Color.CYAN);
+                appendToPane(ui, "The Lich King says: 5 \n\n", Color.CYAN);
                 Thread.sleep(1000);
-                appendToPane("The Lich King says: 4 \n\n", Color.CYAN);
+                appendToPane(ui, "The Lich King says: 4 \n\n", Color.CYAN);
                 Thread.sleep(1000);
-                appendToPane("The Lich King says: 3 \n\n", Color.CYAN);
+                appendToPane(ui, "The Lich King says: 3 \n\n", Color.CYAN);
                 Thread.sleep(1000);
-                appendToPane("The Lich King says: 2 \n\n", Color.CYAN);
+                appendToPane(ui, "The Lich King says: 2 \n\n", Color.CYAN);
                 Thread.sleep(1000);
-                appendToPane("The Lich King says: 1 \n\n", Color.CYAN);
+                appendToPane(ui, "The Lich King says: 1 \n\n", Color.CYAN);
                 Thread.sleep(1000);
 
-                appendToPane("The Lich King says: Happy New Year, insects! \n\n", Color.CYAN);
-                appendToPane("\n", Color.CYAN);
+                appendToPane(ui, "The Lich King says: Happy New Year, insects! \n\n", Color.CYAN);
+                appendToPane(ui, "\n", Color.CYAN);
                 Thread.sleep(3000);
-                appendToPane("Everyone have earned the achievement: ", Color.WHITE);
-                appendToPane("[Happy New Year, Insects!]\n\n", Color.ORANGE);
-                appendToPane("\n", Color.CYAN);
+                appendToPane(ui, "Everyone have earned the achievement: ", Color.WHITE);
+                appendToPane(ui, "[Happy New Year, Insects!]\n\n", Color.ORANGE);
+                appendToPane(ui, "\n", Color.CYAN);
                 playSound("data/AchievementSound.wav");
                 Desktop.getDesktop().open(new File("data/Achi/Happy New Year Achievement.png"));
 
                 Desktop.getDesktop().open(new File("data/Fireworks.mp4"));
                 Thread.sleep(60000);
-                Runtime runtime = Runtime.getRuntime();
-                runtime.exec("taskkill /F /IM Microsoft.Photos.exe");
+               // Runtime runtime = Runtime.getRuntime();
+               // runtime.exec("taskkill /F /IM Microsoft.Photos.exe");
 
                 Desktop.getDesktop().open(new File("data/LichKingAnimatedWallpaper.mp4"));
                 newYear = false;
