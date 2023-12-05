@@ -12,7 +12,7 @@ public class Main {
 
     public static void main(String[] args) throws UnsupportedAudioFileException, LineUnavailableException, IOException, InterruptedException {
 
-            PlayerManager test = new PlayerManager(1);
+            PlayerManager test = new PlayerManager(10);
             test.playPlayerSound(1);
 
         /* Set the Nimbus look and feel */
