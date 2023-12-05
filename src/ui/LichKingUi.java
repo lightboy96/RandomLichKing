@@ -21,11 +21,11 @@ public class LichKingUi extends javax.swing.JFrame {
     private final SoundPlayer soundPlayer;
 
     public LichKingUi(SoundPlayer soundPlayer) {
+        initComponents();
         this.soundPlayer = soundPlayer;
         this.starting = true;
         this.exiting = false;
         this.newYear = false;
-        initComponents();
     }
 
 

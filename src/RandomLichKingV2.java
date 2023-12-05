@@ -8,6 +8,7 @@ import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -75,13 +76,15 @@ public class RandomLichKingV2 extends javax.swing.JFrame {
 
         try {
             Desktop.getDesktop().open(new File("data/LichKingAnimatedWallpaper.mp4"));
+            Thread.sleep(1000);
 
             Timestamp welcomTimeStamp = new Timestamp(System.currentTimeMillis());
             appendToPane("[" + SIMPLE_DATE_FORMAT.format(welcomTimeStamp) + "] " + "The Lich King says: I suppose a welcome is in order... So welcome, insects, welcome to MY WORLD! \n\n", Color.CYAN);
-
             playSound("data/Welcome.wav");
             Thread.sleep(15000);
             starting = false;
+            printDeathKnightsMessage();
+
 
             Thread newYearThread = getNewYearThread();
             newYearThread.start();
@@ -92,8 +95,8 @@ public class RandomLichKingV2 extends javax.swing.JFrame {
                     appendToPane("[" + SIMPLE_DATE_FORMAT.format(dormantTimeStamp) + "] " + "The Lich King is dormant... \n\n", Color.WHITE);
                 }
 
-                int random = 0;
-                random = new Random().nextInt((maxWait - minWait) + 1) + minWait;
+                
+                int random = new Random().nextInt((maxWait - minWait) + 1) + minWait;
                 Thread.sleep(random);
 
                 if (!exiting && !newYear) {
@@ -109,6 +112,12 @@ public class RandomLichKingV2 extends javax.swing.JFrame {
         }
     }
 
+    private static void printDeathKnightsMessage() throws InterruptedException, UnsupportedAudioFileException, LineUnavailableException, IOException {
+        Timestamp deathKnightTimeStamp = new Timestamp(System.currentTimeMillis());
+        appendToPane("[" + SIMPLE_DATE_FORMAT.format(deathKnightTimeStamp) + "] " + "The Lich King says: Go now... and claim your destiny... Death Knight! \n\n", Color.CYAN);
+        playSound("data/DeathKnights.wav");
+        Thread.sleep(7000);
+    }
     private static Thread getNewYearThread() {
         Thread newYearThread = new Thread(() -> {
             try {
