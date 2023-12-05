@@ -1,7 +1,6 @@
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
-import java.rmi.UnexpectedException;
 
 public class Main {
     private static javax.swing.JTextPane jConsole;
@@ -11,10 +10,11 @@ public class Main {
     private javax.swing.JPanel panelConsole;
 
     public static void main(String[] args) throws UnsupportedAudioFileException, LineUnavailableException, IOException, InterruptedException {
-
-            PlayerManager test = new PlayerManager(10);
-            test.playPlayerSound(1);
-
+        EventManager event = new EventManager(7);
+        event.randomEvent();
+        event.randomEvent();
+        event.randomEvent();
+        event.randomEvent();
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.

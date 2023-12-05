@@ -17,32 +17,35 @@ public class PlayerManager {
         initPlayers();
 
     }
+
     private void initPlayers() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        for(int i = 0; i < this.currentPLayers; i++) {
-            String message =  "Player " + i+1 + " it is your time to drink." ;
-            Player player =  new Player(i, message);
+        for (int i = 0; i < this.currentPLayers; i++) {
+            String message = "Player " + i + 1 + " it is your time to drink.";
+            Player player = new Player(i, message);
             players.add(player);
         }
     }
+
     public void playPlayerSound(int index) throws LineUnavailableException, IOException, InterruptedException {
-        Player currentPlayer = players.get(index-1);
+        Player currentPlayer = players.get(index - 1);
         currentPlayer.playPlayerSound();
 
     }
-    private void writePlayerMessage(int index){
-        Player currentPlayer = players.get(index-1);
+
+    private void writePlayerMessage(int index) {
+        Player currentPlayer = players.get(index - 1);
     }
-    private int randomPLayer(){
+
+    private int randomPLayer() {
         Random random = new Random();
         return random.nextInt((this.currentPLayers - 1) + 1) + 1;
     }
 
-     public void randomPlayerEvent() throws LineUnavailableException, IOException, InterruptedException {
-        int index  =  randomPLayer();
+    public void randomPlayerEvent() throws LineUnavailableException, IOException, InterruptedException {
+        int index = randomPLayer();
         writePlayerMessage(index);
         playPlayerSound(index);
-     }
-
+    }
 
 
     private void validateNumberOfPlayers(int i) {

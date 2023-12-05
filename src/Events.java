@@ -12,7 +12,6 @@ public class Events {
     private PlayerManager playerManager;
 
 
-
     public Events(String inputMessage, String sound, boolean playerDependant, boolean hourly, PlayerManager playerManager) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         if (playerDependant) {
             this.isPlayerDependant = true;
@@ -31,13 +30,20 @@ public class Events {
         this.sounds = new Sounds(sound);
 
     }
+
     public void playEvent() throws LineUnavailableException, IOException, InterruptedException {
-        if(this.isPlayerDependant){
-         playerManager.randomPlayerEvent();
+        if (this.isPlayerDependant) {
+            playerManager.randomPlayerEvent();
+        } else if (this.isHourly) {
+
+        }            //Needs to be filled with time logic
+        else{
+            playThisEvent();
         }
-        if(this.isHourly){
-            //Needs to be filled with time logic
-        }
+    }
+    private void playThisEvent() throws LineUnavailableException, IOException, InterruptedException {
+        System.out.println(this.message);
+        sounds.playClip();
     }
 
 
