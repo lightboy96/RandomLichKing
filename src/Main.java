@@ -14,7 +14,7 @@ public class Main {
         event.randomEvent();
         System.out.println("event1");
         event.randomEvent();
-        System.out.println("event2");
+        System.out.println("event :-)");
         event.randomEvent();
         System.out.println("event3");
         event.randomEvent();
