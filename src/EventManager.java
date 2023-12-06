@@ -9,15 +9,15 @@ public class EventManager {
     private final List<Events> eventList = new ArrayList<>();
     public boolean exiting;
     public boolean starting;
-    public boolean newYear;
+    public boolean newYear = false;
     private final PlayerManager playerManager;
 
     public EventManager(int numberOfPlayers) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         playerManager = new PlayerManager(numberOfPlayers);
-        Events e1 = new Events("The Lich King yells: Frostmourne hungers!", "data/FrostmourneHungers.wav", false, false, playerManager); //Basic Event everyone drinks
+        //Events e1 = new Events("The Lich King yells: Frostmourne hungers!", "data/FrostmourneHungers.wav", false, false, playerManager); //Basic Event everyone drinks
         Events e2 = new Events("It is time for a random person to drink", "noData", true, false, playerManager);
 
-        eventList.add(e1);
+        //eventList.add(e1);
         eventList.add(e2);
     }
 
@@ -29,7 +29,7 @@ public class EventManager {
         Random random = new Random();
         Events currentEvent;
         int i= 0;
-        while (!selected) {
+        while (!selected || !this.newYear) {
             i++;
             System.out.println(i);
             randomNumber = random.nextInt(listLength);
@@ -42,14 +42,12 @@ public class EventManager {
                 selected  = false;
 
 
-            } else if (currentEvent.isPlayerDependant()) {
-                currentEvent.playEvent();
-                selected = true;
-            } else {
+            } else{
                 currentEvent.playEvent();
                 selected = true;
             }
         }
+        Thread.sleep(10000);
     }
 }
 

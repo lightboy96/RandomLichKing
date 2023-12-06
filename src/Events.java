@@ -2,7 +2,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 
-public class Events {
+public class Events{
     //This class adds the events where an event will have multiple properties
     private final boolean isPlayerDependant;
     private final boolean isHourly;

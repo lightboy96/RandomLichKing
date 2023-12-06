@@ -12,14 +12,27 @@ public class Sounds {
         clip = AudioSystem.getClip();
     }
 
-    public void playClip() throws LineUnavailableException, IOException, InterruptedException {
-        clip.open(audioIn);
+    public void playClip()  {
+
+        try {
+            clip.open(audioIn);
+        } catch (LineUnavailableException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         clip.start();
         try {
-            Thread.sleep(clip.getMicrosecondLength());
+            Thread.sleep(clip.getMicrosecondLength()/1000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+        clip.close();
+        //Thread.sleep(clip.getMicrosecondLength());
+
+    }
+    private void losingMymind(){
+
     }
 
 
