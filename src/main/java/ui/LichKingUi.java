@@ -14,6 +14,7 @@ public class LichKingUi extends javax.swing.JFrame {
 
     public LichKingUi() {
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        setTitle("Random Lich King");
         
         jScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane.setViewportBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 10));
@@ -38,6 +39,10 @@ public class LichKingUi extends javax.swing.JFrame {
 
     public JTextPane getConsoleTextPane() {
         return consoleTextPane;
+    }
+
+    public JPanel getVideoPanel() {
+        return videoPanel;
     }
 
     public JButton getKillButton() {

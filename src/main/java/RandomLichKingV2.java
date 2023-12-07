@@ -132,69 +132,6 @@ public class RandomLichKingV2 extends javax.swing.JFrame {
         return newYearThread;
     }
 
-
-   /* private void initComponents() {
-
-        javax.swing.JPanel panelConsole = new javax.swing.JPanel();
-        javax.swing.JScrollPane jScrollPane1 = new javax.swing.JScrollPane();
-        jConsole = new javax.swing.JTextPane();
-        javax.swing.JButton killButton = new javax.swing.JButton();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setLocation(new java.awt.Point(980, 8));
-
-        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane1.setViewportBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 10));
-
-        jConsole.setBackground(new java.awt.Color(0, 0, 0));
-        jConsole.setBorder(null);
-        jConsole.setFont(new java.awt.Font("Segoe UI", Font.PLAIN, 18));
-        jConsole.setForeground(new java.awt.Color(255, 255, 255));
-        jConsole.setFocusable(false);
-        jScrollPane1.setViewportView(jConsole);
-
-        javax.swing.GroupLayout panelConsoleLayout = new javax.swing.GroupLayout(panelConsole);
-        panelConsole.setLayout(panelConsoleLayout);
-        panelConsoleLayout.setHorizontalGroup(
-                panelConsoleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
-        );
-        panelConsoleLayout.setVerticalGroup(
-                panelConsoleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(panelConsoleLayout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 730, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
-        killButton.setForeground(new java.awt.Color(255, 0, 0));
-        killButton.setText("Kill");
-        killButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        killButton.setFocusable(false);
-        killButton.setRequestFocusEnabled(false);
-       // killButton.addActionListener(this::KillButtonActionPerformed);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(panelConsole, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(killButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(223, 223, 223))
-        );
-        layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addComponent(panelConsole, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(killButton)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        pack();
-    } */
-
     private static void KillButtonActionPerformed(LichKingUi ui, java.awt.event.ActionEvent evt) {
         Thread threadExit = new Thread(() -> {
             try {
