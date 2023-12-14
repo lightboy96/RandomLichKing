@@ -11,6 +11,7 @@ public class LichKingUi extends javax.swing.JFrame {
     private JScrollPane jScrollPane;
     private JTextPane consoleTextPane;
     private JButton killButton;
+    private JLabel gifLabel;
 
     public LichKingUi() {
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -26,15 +27,11 @@ public class LichKingUi extends javax.swing.JFrame {
         consoleTextPane.setFocusable(false);
         jScrollPane.setViewportView(consoleTextPane);
 
-        killButton.setForeground(new java.awt.Color(255, 0, 0));
-        killButton.setText("Kill");
-        killButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        killButton.setFocusable(false);
-        killButton.setRequestFocusEnabled(false);
+        gifLabel.setIcon(new ImageIcon("data/LichKingAnimatedWallpaper.gif"));
 
         add(mainPanel);
         pack();
-        setLocationRelativeTo(null);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
     public JTextPane getConsoleTextPane() {
@@ -47,5 +44,9 @@ public class LichKingUi extends javax.swing.JFrame {
 
     public JButton getKillButton() {
         return killButton;
+    }
+
+    public JLabel getGifLabel() {
+        return gifLabel;
     }
 }

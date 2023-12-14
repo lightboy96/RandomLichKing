@@ -1,6 +1,7 @@
 import ui.LichKingUi;
 
 import javax.sound.sampled.*;
+import javax.swing.*;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -33,13 +34,7 @@ public class RandomLichKingV2 extends javax.swing.JFrame {
     private static boolean newYear;
    // private static javax.swing.JTextPane jConsole;
 
-    public RandomLichKingV2() {
-
-        // Test wait times
-        //minWait = 10000; // 10 sec
-        //maxWait = 30000; // 30 sec
-
-    }
+    public RandomLichKingV2() {}
 
     private static void appendToPane(LichKingUi ui, String msg, Color c) {
         StyleContext styleContext = StyleContext.getDefaultStyleContext();
@@ -69,10 +64,15 @@ public class RandomLichKingV2 extends javax.swing.JFrame {
         newYear = false;
 
         // Prod wait times
-        minWait = 300000; // 5 min
-        maxWait = 1200000; // 20 min
+        //minWait = 300000; // 5 min
+       // maxWait = 1200000; // 20 min
+
+        // Test wait times
+        minWait = 10000; // 10 sec
+        maxWait = 30000; // 30 sec
 
         LichKingUi ui = new LichKingUi();
+
         ui.getKillButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -83,8 +83,6 @@ public class RandomLichKingV2 extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(() -> ui.setVisible(true));
 
         try {
-           // Desktop.getDesktop().open(new File("data/LichKingAnimatedWallpaper.mp4"));
-           // Thread.sleep(1000);
             Timestamp welcomTimeStamp = new Timestamp(System.currentTimeMillis());
             appendToPane(ui, "[" + SIMPLE_DATE_FORMAT.format(welcomTimeStamp) + "] " + "The Lich King says: I suppose a welcome is in order... So welcome, insects, welcome to MY WORLD! \n\n", Color.CYAN);
 
@@ -120,9 +118,9 @@ public class RandomLichKingV2 extends javax.swing.JFrame {
     private static Thread getNewYearThread(LichKingUi ui) {
         Thread newYearThread = new Thread(() -> {
             try {
-                Date date = newYearDateFormatter.parse("2023-12-31 23:59:40"); //TODO: make this dynamic
-                //Testing date:
-                //Date date = newYearDateFormatter.parse("2021-12-25 18:59:40");
+                //Date date = newYearDateFormatter.parse("2023-12-31 23:59:40"); //TODO: make this dynamic
+                // Testing date
+                Date date = newYearDateFormatter.parse("2021-12-25 18:59:40");
                 Timer timer = new Timer();
                 timer.schedule(new NewYearTask(ui), date);
             } catch (ParseException ex) {
@@ -143,9 +141,6 @@ public class RandomLichKingV2 extends javax.swing.JFrame {
 
                 Thread.sleep(9000);
 
-                //Runtime runtime = Runtime.getRuntime();
-                //runtime.exec("taskkill /F /IM Video.UI.exe");
-                //dispose();
                 System.exit(0);
             } catch (Exception ex) {
                 Logger.getLogger(RandomLichKingV2.class.getName()).log(Level.SEVERE, null, ex);
@@ -197,15 +192,15 @@ public class RandomLichKingV2 extends javax.swing.JFrame {
                 appendToPane(ui, "Everyone have earned the achievement: ", Color.WHITE);
                 appendToPane(ui, "[Happy New Year, Insects!]\n\n", Color.ORANGE);
                 appendToPane(ui, "\n", Color.CYAN);
-                playSound("data/AchievementSound.wav");
-                Desktop.getDesktop().open(new File("data/Achi/Happy New Year Achievement.png"));
+                playSound("data/AchievmentSound.wav");
+                ui.getGifLabel().setIcon(new ImageIcon("data/Achi/Happy New Year Achievement.png"));
+                Thread.sleep(10000);
 
-                Desktop.getDesktop().open(new File("data/Fireworks.mp4"));
+                ui.getGifLabel().setIcon(new ImageIcon("data/Fireworks.gif"));
+                playSound("data/Fireworks.wav");
                 Thread.sleep(60000);
-               // Runtime runtime = Runtime.getRuntime();
-               // runtime.exec("taskkill /F /IM Microsoft.Photos.exe");
+                ui.getGifLabel().setIcon(new ImageIcon("data/LichKingAnimatedWallpaper.gif"));
 
-                Desktop.getDesktop().open(new File("data/LichKingAnimatedWallpaper.mp4"));
                 newYear = false;
             } catch (Exception ex) {
                 Logger.getLogger(RandomLichKingV2.class.getName()).log(Level.SEVERE, null, ex);
