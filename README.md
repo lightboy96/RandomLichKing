@@ -6,6 +6,4 @@ Developed in 2020, this app is a fun little addition to your New Year's Eve part
 Should you stumble upon this repo, we hope you have fun with it.
 
 # Notes
-- The UI for the program was created with Netbeans. It contains Netbeans-generated code and project files.
-- As of 04.12.2023. the program only works if the default media player is the microsoft default one (fixing required)
-
+- The UI for the program was originally created with Netbeans but now migrated to IDEA.
