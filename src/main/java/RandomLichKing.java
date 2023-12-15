@@ -23,7 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class RandomLichKingV2 extends javax.swing.JFrame {
+public class RandomLichKing extends javax.swing.JFrame {
     //TODO: ADHERE TO OOP AND SOLID. THIS CLASS SHOULD ONLY HAVE THE main method
     private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("HH:mm");
     static DateFormat newYearDateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -34,7 +34,7 @@ public class RandomLichKingV2 extends javax.swing.JFrame {
     private static boolean newYear;
    // private static javax.swing.JTextPane jConsole;
 
-    public RandomLichKingV2() {}
+    public RandomLichKing() {}
 
     private static void appendToPane(LichKingUi ui, String msg, Color c) {
         StyleContext styleContext = StyleContext.getDefaultStyleContext();
@@ -111,7 +111,7 @@ public class RandomLichKingV2 extends javax.swing.JFrame {
                 }
             }
         } catch (Exception exception) {
-            Logger.getLogger(RandomLichKingV2.class.getName()).log(Level.SEVERE, null, exception);
+            Logger.getLogger(RandomLichKing.class.getName()).log(Level.SEVERE, null, exception);
         }
     }
 
@@ -124,7 +124,7 @@ public class RandomLichKingV2 extends javax.swing.JFrame {
                 Timer timer = new Timer();
                 timer.schedule(new NewYearTask(ui), date);
             } catch (ParseException ex) {
-                Logger.getLogger(RandomLichKingV2.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(RandomLichKing.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
         return newYearThread;
@@ -143,7 +143,7 @@ public class RandomLichKingV2 extends javax.swing.JFrame {
 
                 System.exit(0);
             } catch (Exception ex) {
-                Logger.getLogger(RandomLichKingV2.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(RandomLichKing.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
 
@@ -203,7 +203,7 @@ public class RandomLichKingV2 extends javax.swing.JFrame {
 
                 newYear = false;
             } catch (Exception ex) {
-                Logger.getLogger(RandomLichKingV2.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(RandomLichKing.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

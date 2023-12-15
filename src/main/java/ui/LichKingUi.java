@@ -6,7 +6,6 @@ import java.awt.*;
 public class LichKingUi extends javax.swing.JFrame {
 
     private JPanel mainPanel;
-    private JPanel consolePanel;
     private JPanel videoPanel;
     private JScrollPane jScrollPane;
     private JTextPane consoleTextPane;
