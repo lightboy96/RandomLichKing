@@ -7,6 +7,7 @@ public class LichKingUi extends javax.swing.JFrame {
 
     private JPanel mainPanel;
     private JPanel videoPanel;
+    private JPanel consolePanel;
     private JScrollPane jScrollPane;
     private JTextPane consoleTextPane;
     private JButton killButton;
