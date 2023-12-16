@@ -32,9 +32,10 @@ public class RandomLichKing extends javax.swing.JFrame {
     private static boolean starting;
     private static boolean exiting;
     private static boolean newYear;
-   // private static javax.swing.JTextPane jConsole;
+    // private static javax.swing.JTextPane jConsole;
 
-    public RandomLichKing() {}
+    public RandomLichKing() {
+    }
 
     private static void appendToPane(LichKingUi ui, String msg, Color c) {
         StyleContext styleContext = StyleContext.getDefaultStyleContext();
@@ -65,7 +66,7 @@ public class RandomLichKing extends javax.swing.JFrame {
 
         // Prod wait times
         //minWait = 300000; // 5 min
-       // maxWait = 1200000; // 20 min
+        // maxWait = 1200000; // 20 min
 
         // Test wait times
         minWait = 10000; // 10 sec
