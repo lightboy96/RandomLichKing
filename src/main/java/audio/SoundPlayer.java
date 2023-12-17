@@ -1,28 +1,28 @@
 package audio;
 
+import service.logger.ConsoleLogger;
+import service.logger.Logger;
+
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
 
 public class SoundPlayer implements Playable {
-    @Override
-    public void playSound(String soundFile) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
-        File file = new File("./" + soundFile);
-        try (AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file.toURI().toURL());
-             Clip clip = AudioSystem.getClip()) {
+    Logger logger = new ConsoleLogger();
 
+    @Override
+    public void playSound(String soundFile) {
+        File file = new File("./" + soundFile);
+        try (AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file.toURI().toURL())) {
+            Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
             clip.start();
 
-            // Wait for the clip to finish
             while (clip.isRunning()) {
-                try {
-                    Thread.sleep(50);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
+                Thread.sleep(clip.getMicrosecondLength());
             }
-            clip.stop();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException | InterruptedException e) {
+            logger.logError(e.getMessage());
         }
     }
 }
