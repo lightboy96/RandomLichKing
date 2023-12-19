@@ -49,24 +49,24 @@ public class RandomLichKing extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(() -> ui.setVisible(true));
         SoundPlayer soundPlayer = new SoundPlayer();
         UiAppender appender = new UiAppender();
-        MessagePrinter messagePrinter = new MessagePrinter();
+        MessagePrinter messagePrinter = new MessagePrinter(appender, soundPlayer, ui);
 
         try {
-            messagePrinter.printWelcomeMessage(appender, ui, soundPlayer);
-            messagePrinter.printDeathKnightsMessage(appender, ui, soundPlayer);
+            messagePrinter.printWelcomeMessage();
+            messagePrinter.printDeathKnightsMessage();
 
             Thread newYearThread = getNewYearThread(ui);
             newYearThread.start();
 
             while (!exiting) {
                 if (!newYear) {
-                    messagePrinter.printDormantMessage(appender, ui);
+                    messagePrinter.printDormantMessage();
                 }
 
-                getRandomWaitTime(maxWait, minWait);
+                getRandomYellWaitTime(maxWait, minWait);
 
                 if (!exiting && !newYear) {
-                    messagePrinter.printYellMessage(appender, ui, soundPlayer);
+                    messagePrinter.printYellMessage();
                 }
             }
         } catch (Exception exception) {
@@ -74,9 +74,21 @@ public class RandomLichKing extends javax.swing.JFrame {
         }
     }
 
-    private static void getRandomWaitTime(int maxWait, int minWait) throws InterruptedException {
+    private static void getRandomYellWaitTime(int maxWait, int minWait) throws InterruptedException {
         int random = new Random().nextInt((maxWait - minWait) + 1) + minWait;
         Thread.sleep(random);
+    }
+
+    //TODO: implement this into the main method and make it yell the message from the MessagePrinter class
+    private static void getRandomCritTime() {
+        int minWait = 3600000;
+        int maxWait = 7200000;
+        int randomCritTime = new Random().nextInt((maxWait - minWait) + 1) + minWait;
+        try {
+            Thread.sleep(randomCritTime);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static Thread getNewYearThread(LichKingUi ui) {
@@ -161,7 +173,7 @@ public class RandomLichKing extends javax.swing.JFrame {
                 uiAppender.appendToPane(ui, "Everyone have earned the achievement: ", Color.WHITE);
                 uiAppender.appendToPane(ui, "[Happy New Year, Insects!]\n\n", Color.ORANGE);
                 uiAppender.appendToPane(ui, "\n", Color.CYAN);
-                soundPlayer.playSound("data/AchievmentSound.wav");
+                soundPlayer.playSound("data/AchievementSound.wav");
                 ui.getGifLabel().setIcon(new ImageIcon("data/Achi/Happy New Year Achievement.png"));
                 Thread.sleep(10000);
 

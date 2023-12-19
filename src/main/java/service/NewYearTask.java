@@ -12,14 +12,15 @@ import java.text.SimpleDateFormat;
 import java.util.TimerTask;
 
 public class NewYearTask extends TimerTask {
-    private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("HH:mm");
+    private final SimpleDateFormat SIMPLE_DATE_FORMAT;
     private final LichKingUi ui;
     private final SoundPlayer soundPlayer;
     private final UiAppender uiAppender;
     private boolean newYear;
     private final Logger logger;
 
-    public NewYearTask(LichKingUi ui, SoundPlayer soundPlayer, UiAppender uiAppender, Logger logger) {
+    public NewYearTask(SimpleDateFormat SIMPLE_DATE_FORMAT, LichKingUi ui, SoundPlayer soundPlayer, UiAppender uiAppender, Logger logger) {
+        this.SIMPLE_DATE_FORMAT = SIMPLE_DATE_FORMAT;
         this.ui = ui;
         this.soundPlayer = soundPlayer;
         this.uiAppender = uiAppender;
@@ -61,7 +62,7 @@ public class NewYearTask extends TimerTask {
             uiAppender.appendToPane(ui, "Everyone have earned the achievement: ", Color.WHITE);
             uiAppender.appendToPane(ui, "[Happy New Year, Insects!]\n\n", Color.ORANGE);
             uiAppender.appendToPane(ui, "\n", Color.CYAN);
-            soundPlayer.playSound("data/AchievmentSound.wav");
+            soundPlayer.playSound("data/AchievementSound.wav");
             ui.getGifLabel().setIcon(new ImageIcon("data/Achi/Happy New Year Achievement.png"));
             Thread.sleep(10000);
 
