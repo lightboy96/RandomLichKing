@@ -1,4 +1,4 @@
-import audio.SoundPlayer;
+import audio.SoundPlayerImpl;
 import service.printer.MessagePrinter;
 import service.printer.UiAppender;
 import ui.LichKingUi;
@@ -18,8 +18,9 @@ import java.util.logging.Logger;
 public class RandomLichKing extends javax.swing.JFrame {
     //TODO: ADHERE TO OOP AND SOLID. THIS CLASS SHOULD ONLY HAVE THE main method
     private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("HH:mm");
-    private static final SoundPlayer soundPlayer = new SoundPlayer();
-    private static final UiAppender uiAppender = new UiAppender();
+    private static final SoundPlayerImpl soundPlayer = new SoundPlayerImpl();
+    private static final LichKingUi ui = new LichKingUi();
+    private static final UiAppender uiAppender = new UiAppender(ui);
     static DateFormat newYearDateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private static boolean starting;
     private static boolean exiting;
@@ -47,8 +48,8 @@ public class RandomLichKing extends javax.swing.JFrame {
         ui.getKillButton().addActionListener(e -> KillButtonActionPerformed(ui));
 
         java.awt.EventQueue.invokeLater(() -> ui.setVisible(true));
-        SoundPlayer soundPlayer = new SoundPlayer();
-        UiAppender appender = new UiAppender();
+        SoundPlayerImpl soundPlayer = new SoundPlayerImpl();
+        UiAppender appender = new UiAppender(ui);
         MessagePrinter messagePrinter = new MessagePrinter(appender, soundPlayer, ui);
 
         try {
@@ -126,8 +127,8 @@ public class RandomLichKing extends javax.swing.JFrame {
 
     private static void printKilledMessage(LichKingUi ui) throws InterruptedException {
         Timestamp exitTimeStamp = new Timestamp(System.currentTimeMillis());
-        uiAppender.appendToPane(ui, "[" + SIMPLE_DATE_FORMAT.format(exitTimeStamp) + "] " + "Arthas says: I see... only... darkness... before... me... \n\n", Color.CYAN);
-        uiAppender.appendToPane(ui, "\n", Color.CYAN);
+        uiAppender.appendToPane("[" + SIMPLE_DATE_FORMAT.format(exitTimeStamp) + "] " + "Arthas says: I see... only... darkness... before... me... \n\n", Color.CYAN);
+        uiAppender.appendToPane("\n", Color.CYAN);
         soundPlayer.playSound("data/OnlyDarkness.wav");
         Thread.sleep(9000);
     }
@@ -146,33 +147,33 @@ public class RandomLichKing extends javax.swing.JFrame {
                 Thread.sleep(10000);
                 Timestamp newYearTS = new Timestamp(System.currentTimeMillis());
                 soundPlayer.playSound("data/Lich King countdown.wav");
-                uiAppender.appendToPane(ui, "[" + SIMPLE_DATE_FORMAT.format(newYearTS) + "] " + "The Lich King says: 10 \n\n", Color.CYAN);
+                uiAppender.appendToPane("[" + SIMPLE_DATE_FORMAT.format(newYearTS) + "] " + "The Lich King says: 10 \n\n", Color.CYAN);
                 Thread.sleep(1000);
-                uiAppender.appendToPane(ui, "The Lich King says: 9 \n\n", Color.CYAN);
+                uiAppender.appendToPane("The Lich King says: 9 \n\n", Color.CYAN);
                 Thread.sleep(1000);
-                uiAppender.appendToPane(ui, "The Lich King says: 8 \n\n", Color.CYAN);
+                uiAppender.appendToPane("The Lich King says: 8 \n\n", Color.CYAN);
                 Thread.sleep(1000);
-                uiAppender.appendToPane(ui, "The Lich King says: 7 \n\n", Color.CYAN);
+                uiAppender.appendToPane("The Lich King says: 7 \n\n", Color.CYAN);
                 Thread.sleep(1000);
-                uiAppender.appendToPane(ui, "The Lich King says: 6 \n\n", Color.CYAN);
+                uiAppender.appendToPane("The Lich King says: 6 \n\n", Color.CYAN);
                 Thread.sleep(1000);
-                uiAppender.appendToPane(ui, "The Lich King says: 5 \n\n", Color.CYAN);
+                uiAppender.appendToPane("The Lich King says: 5 \n\n", Color.CYAN);
                 Thread.sleep(1000);
-                uiAppender.appendToPane(ui, "The Lich King says: 4 \n\n", Color.CYAN);
+                uiAppender.appendToPane("The Lich King says: 4 \n\n", Color.CYAN);
                 Thread.sleep(1000);
-                uiAppender.appendToPane(ui, "The Lich King says: 3 \n\n", Color.CYAN);
+                uiAppender.appendToPane("The Lich King says: 3 \n\n", Color.CYAN);
                 Thread.sleep(1000);
-                uiAppender.appendToPane(ui, "The Lich King says: 2 \n\n", Color.CYAN);
+                uiAppender.appendToPane("The Lich King says: 2 \n\n", Color.CYAN);
                 Thread.sleep(1000);
-                uiAppender.appendToPane(ui, "The Lich King says: 1 \n\n", Color.CYAN);
+                uiAppender.appendToPane("The Lich King says: 1 \n\n", Color.CYAN);
                 Thread.sleep(1000);
 
-                uiAppender.appendToPane(ui, "The Lich King says: Happy New Year, insects! \n\n", Color.CYAN);
-                uiAppender.appendToPane(ui, "\n", Color.CYAN);
+                uiAppender.appendToPane("The Lich King says: Happy New Year, insects! \n\n", Color.CYAN);
+                uiAppender.appendToPane("\n", Color.CYAN);
                 Thread.sleep(3000);
-                uiAppender.appendToPane(ui, "Everyone have earned the achievement: ", Color.WHITE);
-                uiAppender.appendToPane(ui, "[Happy New Year, Insects!]\n\n", Color.ORANGE);
-                uiAppender.appendToPane(ui, "\n", Color.CYAN);
+                uiAppender.appendToPane("Everyone have earned the achievement: ", Color.WHITE);
+                uiAppender.appendToPane("[Happy New Year, Insects!]\n\n", Color.ORANGE);
+                uiAppender.appendToPane("\n", Color.CYAN);
                 soundPlayer.playSound("data/AchievementSound.wav");
                 ui.getGifLabel().setIcon(new ImageIcon("data/Achi/Happy New Year Achievement.png"));
                 Thread.sleep(10000);

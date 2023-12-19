@@ -9,10 +9,15 @@ import javax.swing.text.StyleContext;
 import java.awt.*;
 
 public class UiAppender {
+    private final LichKingUi ui;
 
-    public void appendToPane(LichKingUi ui, String msg, Color c) {
+    public UiAppender(LichKingUi ui) {
+        this.ui = ui;
+    }
+
+    public void appendToPane(String message, Color color) {
         StyleContext styleContext = StyleContext.getDefaultStyleContext();
-        AttributeSet attributeSet = styleContext.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
+        AttributeSet attributeSet = styleContext.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, color);
 
         attributeSet = styleContext.addAttribute(attributeSet, StyleConstants.FontFamily, "Lucida Console");
         attributeSet = styleContext.addAttribute(attributeSet, StyleConstants.Alignment, StyleConstants.ALIGN_JUSTIFIED);
@@ -20,6 +25,6 @@ public class UiAppender {
         int len = ui.getConsoleTextPane().getDocument().getLength();
         ui.getConsoleTextPane().setCaretPosition(len);
         ui.getConsoleTextPane().setCharacterAttributes(attributeSet, false);
-        ui.getConsoleTextPane().replaceSelection(msg);
+        ui.getConsoleTextPane().replaceSelection(message);
     }
 }
