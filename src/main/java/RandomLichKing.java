@@ -102,9 +102,14 @@ public class RandomLichKing extends JFrame {
                 int currentYear = Calendar.getInstance().get(Calendar.YEAR);
                 String newYearDateString = currentYear + "-12-31 23:59:40";
 
-                Date date = newYearDateFormatter.parse(newYearDateString);
+                //Testing Date:
+                Date testingDate = newYearDateFormatter.parse("2023-12-21 15:01:40");
+
+                //Production Date:
+                Date newYearDate = newYearDateFormatter.parse(newYearDateString);
+
                 Timer timer = new Timer();
-                timer.schedule(new NewYearTask(ui, soundPlayer, logger, messagePrinter), date);
+                timer.schedule(new NewYearTask(ui, soundPlayer, logger, messagePrinter), testingDate /*newYearDate*/);
             } catch (ParseException ex) {
                 Logger.getLogger(RandomLichKing.class.getName()).log(Level.SEVERE, null, ex);
             }

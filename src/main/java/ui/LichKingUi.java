@@ -40,10 +40,6 @@ public class LichKingUi extends javax.swing.JFrame {
         return consoleTextPane;
     }
 
-    public JPanel getVideoPanel() {
-        return videoPanel;
-    }
-
     public JButton getKillButton() {
         return killButton;
     }

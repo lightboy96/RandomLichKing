@@ -1,7 +1,6 @@
 package service.printer;
 
 import audio.SoundPlayer;
-import audio.SoundPlayerImpl;
 import ui.LichKingUi;
 
 import javax.swing.*;
@@ -34,7 +33,8 @@ public class MessagePrinter {
 
     public void printDeathKnightsMessage() throws InterruptedException {
         Timestamp deathKnightTimeStamp = new Timestamp(System.currentTimeMillis());
-        appender.appendToPane("[" + SIMPLE_DATE_FORMAT.format(deathKnightTimeStamp) + "]" + "The Lich King orders: Go now! And claim your destiny, Death Knight \n\n", Color.red);
+        appender.appendToPane("[" + SIMPLE_DATE_FORMAT.format(deathKnightTimeStamp) + "] " + "The Lich King orders: Go now! And claim your destiny, Death Knight! \n\n", Color.red);
+        appender.appendToPane("[Instruction]: Drink now! \n\n", Color.WHITE);
         soundPlayer.playSound("data/DeathKnights.wav");
         Thread.sleep(7000);
     }
@@ -48,6 +48,7 @@ public class MessagePrinter {
         Timestamp yellTimeStamp = new Timestamp(System.currentTimeMillis());
         appender.appendToPane("[" + SIMPLE_DATE_FORMAT.format(yellTimeStamp) + "] " + "The Lich King yells: Frostmourne hungers! \n", Color.red);
         appender.appendToPane("\n", Color.red);
+        appender.appendToPane("[Instruction]: DRINK! \n\n", Color.WHITE);
         soundPlayer.playSound("data/FrostmourneHungers.wav");
         Thread.sleep(7000);
     }
@@ -62,7 +63,8 @@ public class MessagePrinter {
 
     public void printCriticalHitMessage() throws InterruptedException {
         Timestamp criticalHitTimeStamp = new Timestamp(System.currentTimeMillis());
-        appender.appendToPane("[" + SIMPLE_DATE_FORMAT.format(criticalHitTimeStamp) + "]" + "The Lich King roars: FINISH IT!!! \n\n", Color.red);
+        appender.appendToPane("[" + SIMPLE_DATE_FORMAT.format(criticalHitTimeStamp) + "] " + "The Lich King roars: FINISH IT!!! \n\n", Color.red);
+        appender.appendToPane("[Instruction]: Drain your cup! \n\n", Color.WHITE);
         soundPlayer.playSound("data/Criticalhit.wav");
         Thread.sleep(3000);
     }
