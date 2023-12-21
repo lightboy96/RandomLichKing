@@ -1,4 +1,7 @@
+import audio.SoundPlayer;
 import audio.SoundPlayerImpl;
+import service.NewYearTask;
+import service.logger.ConsoleLogger;
 import service.printer.MessagePrinter;
 import service.printer.UiAppender;
 import ui.LichKingUi;
@@ -9,26 +12,26 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Random;
 import java.util.Timer;
-import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class RandomLichKing extends javax.swing.JFrame {
+public class RandomLichKing extends JFrame {
     //TODO: ADHERE TO OOP AND SOLID. THIS CLASS SHOULD ONLY HAVE THE main method
     private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("HH:mm");
-    private static final SoundPlayerImpl soundPlayer = new SoundPlayerImpl();
+    private static final SoundPlayer soundPlayer = new SoundPlayerImpl();
     private static final LichKingUi ui = new LichKingUi();
     private static final UiAppender uiAppender = new UiAppender(ui);
+    private static final service.logger.Logger logger = new ConsoleLogger();
+    private static final MessagePrinter messagePrinter = new MessagePrinter(uiAppender, soundPlayer, ui);
     static DateFormat newYearDateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private static boolean starting;
     private static boolean exiting;
     private static boolean newYear;
-
-
-    public RandomLichKing() {
-    }
 
     public static void main(String[] args) {
 
@@ -45,9 +48,9 @@ public class RandomLichKing extends javax.swing.JFrame {
         int maxWait = 30000; // 30 sec
 
         LichKingUi ui = new LichKingUi();
-        ui.getKillButton().addActionListener(e -> KillButtonActionPerformed(ui));
+        ui.getKillButton().addActionListener(e -> KillButtonActionPerformed());
 
-        java.awt.EventQueue.invokeLater(() -> ui.setVisible(true));
+        EventQueue.invokeLater(() -> ui.setVisible(true));
         SoundPlayerImpl soundPlayer = new SoundPlayerImpl();
         UiAppender appender = new UiAppender(ui);
         MessagePrinter messagePrinter = new MessagePrinter(appender, soundPlayer, ui);
@@ -101,7 +104,7 @@ public class RandomLichKing extends javax.swing.JFrame {
 
                 Date date = newYearDateFormatter.parse(newYearDateString);
                 Timer timer = new Timer();
-                timer.schedule(new NewYearTask(ui), date);
+                timer.schedule(new NewYearTask(ui, soundPlayer, logger, messagePrinter), date);
             } catch (ParseException ex) {
                 Logger.getLogger(RandomLichKing.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -109,13 +112,14 @@ public class RandomLichKing extends javax.swing.JFrame {
         return newYearThread;
     }
 
-    private static void KillButtonActionPerformed(LichKingUi ui) {
+    private static void KillButtonActionPerformed() {
         Thread threadExit = new Thread(() -> {
             try {
                 exiting = true;
-                printKilledMessage(ui);
+                printKilledMessage();
 
                 System.exit(0);
+
             } catch (Exception ex) {
                 Logger.getLogger(RandomLichKing.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -125,68 +129,12 @@ public class RandomLichKing extends javax.swing.JFrame {
             threadExit.start();
     }
 
-    private static void printKilledMessage(LichKingUi ui) throws InterruptedException {
+    private static void printKilledMessage() throws InterruptedException {
         Timestamp exitTimeStamp = new Timestamp(System.currentTimeMillis());
         uiAppender.appendToPane("[" + SIMPLE_DATE_FORMAT.format(exitTimeStamp) + "] " + "Arthas says: I see... only... darkness... before... me... \n\n", Color.CYAN);
         uiAppender.appendToPane("\n", Color.CYAN);
+
         soundPlayer.playSound("data/OnlyDarkness.wav");
         Thread.sleep(9000);
-    }
-
-    private static class NewYearTask extends TimerTask { //TODO: Move to own class
-        private final LichKingUi ui;
-
-        public NewYearTask(LichKingUi ui) {
-            this.ui = ui;
-        }
-
-        @Override
-        public void run() {
-            try {
-                newYear = true;
-                Thread.sleep(10000);
-                Timestamp newYearTS = new Timestamp(System.currentTimeMillis());
-                soundPlayer.playSound("data/Lich King countdown.wav");
-                uiAppender.appendToPane("[" + SIMPLE_DATE_FORMAT.format(newYearTS) + "] " + "The Lich King says: 10 \n\n", Color.CYAN);
-                Thread.sleep(1000);
-                uiAppender.appendToPane("The Lich King says: 9 \n\n", Color.CYAN);
-                Thread.sleep(1000);
-                uiAppender.appendToPane("The Lich King says: 8 \n\n", Color.CYAN);
-                Thread.sleep(1000);
-                uiAppender.appendToPane("The Lich King says: 7 \n\n", Color.CYAN);
-                Thread.sleep(1000);
-                uiAppender.appendToPane("The Lich King says: 6 \n\n", Color.CYAN);
-                Thread.sleep(1000);
-                uiAppender.appendToPane("The Lich King says: 5 \n\n", Color.CYAN);
-                Thread.sleep(1000);
-                uiAppender.appendToPane("The Lich King says: 4 \n\n", Color.CYAN);
-                Thread.sleep(1000);
-                uiAppender.appendToPane("The Lich King says: 3 \n\n", Color.CYAN);
-                Thread.sleep(1000);
-                uiAppender.appendToPane("The Lich King says: 2 \n\n", Color.CYAN);
-                Thread.sleep(1000);
-                uiAppender.appendToPane("The Lich King says: 1 \n\n", Color.CYAN);
-                Thread.sleep(1000);
-
-                uiAppender.appendToPane("The Lich King says: Happy New Year, insects! \n\n", Color.CYAN);
-                uiAppender.appendToPane("\n", Color.CYAN);
-                Thread.sleep(3000);
-                uiAppender.appendToPane("Everyone have earned the achievement: ", Color.WHITE);
-                uiAppender.appendToPane("[Happy New Year, Insects!]\n\n", Color.ORANGE);
-                uiAppender.appendToPane("\n", Color.CYAN);
-                soundPlayer.playSound("data/AchievementSound.wav");
-                ui.getGifLabel().setIcon(new ImageIcon("data/Achi/Happy New Year Achievement.png"));
-                Thread.sleep(10000);
-
-                ui.getGifLabel().setIcon(new ImageIcon("data/Fireworks.gif"));
-                soundPlayer.playSound("data/Fireworks.wav");
-                Thread.sleep(60000);
-                ui.getGifLabel().setIcon(new ImageIcon("data/LichKingAnimatedWallpaper.gif"));
-
-                newYear = false;
-            } catch (Exception ex) {
-                Logger.getLogger(RandomLichKing.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
     }
 }

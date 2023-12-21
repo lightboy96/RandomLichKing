@@ -1,8 +1,10 @@
 package service.printer;
 
+import audio.SoundPlayer;
 import audio.SoundPlayerImpl;
 import ui.LichKingUi;
 
+import javax.swing.*;
 import java.awt.*;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -10,11 +12,11 @@ import java.text.SimpleDateFormat;
 public class MessagePrinter {
     private final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("HH:mm");
     private final UiAppender appender;
-    private final SoundPlayerImpl soundPlayer;
+    private final SoundPlayer soundPlayer;
     private final LichKingUi ui;
     private boolean starting;
 
-    public MessagePrinter(UiAppender appender, SoundPlayerImpl soundPlayer, LichKingUi ui) {
+    public MessagePrinter(UiAppender appender, SoundPlayer soundPlayer, LichKingUi ui) {
         this.ui = ui;
         this.starting = true;
         this.appender = appender;
@@ -63,5 +65,42 @@ public class MessagePrinter {
         appender.appendToPane("[" + SIMPLE_DATE_FORMAT.format(criticalHitTimeStamp) + "]" + "The Lich King roars: FINISH IT!!! \n\n", Color.red);
         soundPlayer.playSound("data/Criticalhit.wav");
         Thread.sleep(3000);
+    }
+
+    public void printAchievement() throws InterruptedException {
+        appender.appendToPane("The Lich King says: Happy New Year, insects! \n\n", Color.CYAN);
+        appender.appendToPane("\n", Color.CYAN);
+        Thread.sleep(3000);
+        appender.appendToPane("Everyone have earned the achievement: ", Color.WHITE);
+        appender.appendToPane("[Happy New Year, Insects!]\n\n", Color.ORANGE);
+        appender.appendToPane("\n", Color.CYAN);
+        soundPlayer.playSound("data/AchievementSound.wav");
+        ui.getGifLabel().setIcon(new ImageIcon("data/Achi/Happy New Year Achievement.png"));
+        Thread.sleep(10000);
+    }
+
+    public void printNewYearCountDown() throws InterruptedException {
+        Timestamp newYearTimeStamp = new Timestamp(System.currentTimeMillis());
+        soundPlayer.playSound("data/Lich King countdown.wav");
+        appender.appendToPane("[" + SIMPLE_DATE_FORMAT.format(newYearTimeStamp) + "] " + "The Lich King says: 10 \n\n", Color.CYAN);
+        Thread.sleep(1000);
+        appender.appendToPane("The Lich King says: 9 \n\n", Color.CYAN);
+        Thread.sleep(1000);
+        appender.appendToPane("The Lich King says: 8 \n\n", Color.CYAN);
+        Thread.sleep(1000);
+        appender.appendToPane("The Lich King says: 7 \n\n", Color.CYAN);
+        Thread.sleep(1000);
+        appender.appendToPane("The Lich King says: 6 \n\n", Color.CYAN);
+        Thread.sleep(1000);
+        appender.appendToPane("The Lich King says: 5 \n\n", Color.CYAN);
+        Thread.sleep(1000);
+        appender.appendToPane("The Lich King says: 4 \n\n", Color.CYAN);
+        Thread.sleep(1000);
+        appender.appendToPane("The Lich King says: 3 \n\n", Color.CYAN);
+        Thread.sleep(1000);
+        appender.appendToPane("The Lich King says: 2 \n\n", Color.CYAN);
+        Thread.sleep(1000);
+        appender.appendToPane("The Lich King says: 1 \n\n", Color.CYAN);
+        Thread.sleep(1000);
     }
 }
