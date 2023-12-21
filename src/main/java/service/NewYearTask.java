@@ -12,8 +12,8 @@ public class NewYearTask extends TimerTask {
     private final LichKingUi ui;
     private final SoundPlayer soundPlayer;
     private final Logger logger;
-    private boolean newYear;
     private final MessagePrinter messagePrinter;
+    private boolean newYear;
 
     public NewYearTask(LichKingUi ui, SoundPlayer soundPlayer, Logger logger, MessagePrinter messagePrinter) {
         this.ui = ui;

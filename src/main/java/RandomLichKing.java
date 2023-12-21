@@ -2,13 +2,13 @@ import audio.SoundPlayer;
 import audio.SoundPlayerImpl;
 import service.NewYearTask;
 import service.logger.ConsoleLogger;
+import service.logger.Logger;
 import service.printer.MessagePrinter;
 import service.printer.UiAppender;
 import ui.LichKingUi;
 
 import javax.swing.*;
 import java.awt.*;
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,13 +16,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 import java.util.Timer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 public class RandomLichKing extends JFrame {
     //TODO: ADHERE TO OOP AND SOLID. THIS CLASS SHOULD ONLY HAVE THE main method
-
     static DateFormat newYearDateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private static boolean starting;
     private static boolean exiting;
@@ -46,10 +43,10 @@ public class RandomLichKing extends JFrame {
         SoundPlayerImpl soundPlayer = new SoundPlayerImpl();
         UiAppender appender = new UiAppender(ui);
         MessagePrinter messagePrinter = new MessagePrinter(appender, soundPlayer, ui);
-        service.logger.Logger logger = new ConsoleLogger();
+        Logger logger = new ConsoleLogger();
 
         EventQueue.invokeLater(() -> ui.setVisible(true));
-        ui.getKillButton().addActionListener(e -> KillButtonActionPerformed(messagePrinter));
+        ui.getKillButton().addActionListener(e -> KillButtonActionPerformed(messagePrinter, logger));
 
         try {
             messagePrinter.printWelcomeMessage();
@@ -71,7 +68,7 @@ public class RandomLichKing extends JFrame {
                 }
             }
         } catch (Exception exception) {
-            Logger.getLogger(RandomLichKing.class.getName()).log(Level.SEVERE, null, exception);
+            logger.logError(exception.getMessage());
         }
     }
 
@@ -81,18 +78,18 @@ public class RandomLichKing extends JFrame {
     }
 
     //TODO: implement this into the main method and make it yell the message from the MessagePrinter class
-    private static void getRandomCritTime() {
+    private static void getRandomCritTime(Logger logger) {
         int minWait = 3600000;
         int maxWait = 7200000;
         int randomCritTime = new Random().nextInt((maxWait - minWait) + 1) + minWait;
         try {
             Thread.sleep(randomCritTime);
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            logger.logError(e.getMessage());
         }
     }
 
-    private static Thread getNewYearThread(LichKingUi ui, SoundPlayer soundPlayer, service.logger.Logger logger, MessagePrinter messagePrinter) {
+    private static Thread getNewYearThread(LichKingUi ui, SoundPlayer soundPlayer, Logger logger, MessagePrinter messagePrinter) {
         Thread newYearThread;
         newYearThread = new Thread(() -> {
             try {
@@ -108,13 +105,13 @@ public class RandomLichKing extends JFrame {
                 Timer timer = new Timer();
                 timer.schedule(new NewYearTask(ui, soundPlayer, logger, messagePrinter), testingDate /*newYearDate*/);
             } catch (ParseException ex) {
-                Logger.getLogger(RandomLichKing.class.getName()).log(Level.SEVERE, null, ex);
+                logger.logError(ex.getMessage());
             }
         });
         return newYearThread;
     }
 
-    private static void KillButtonActionPerformed(MessagePrinter messagePrinter) {
+    private static void KillButtonActionPerformed(MessagePrinter messagePrinter, Logger logger) {
         Thread threadExit = new Thread(() -> {
             try {
                 exiting = true;
@@ -123,12 +120,11 @@ public class RandomLichKing extends JFrame {
                 System.exit(0);
 
             } catch (Exception ex) {
-                Logger.getLogger(RandomLichKing.class.getName()).log(Level.SEVERE, null, ex);
+                logger.logError(ex.getMessage());
             }
         });
 
         if (!starting && !newYear)
             threadExit.start();
     }
-
 }
