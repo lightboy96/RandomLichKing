@@ -46,8 +46,7 @@ public class MessagePrinter {
 
     public void printYellMessage() throws InterruptedException {
         Timestamp yellTimeStamp = new Timestamp(System.currentTimeMillis());
-        appender.appendToPane("[" + SIMPLE_DATE_FORMAT.format(yellTimeStamp) + "] " + "The Lich King yells: Frostmourne hungers! \n", Color.red);
-        appender.appendToPane("\n", Color.red);
+        appender.appendToPane("[" + SIMPLE_DATE_FORMAT.format(yellTimeStamp) + "] " + "The Lich King yells: Frostmourne hungers! \n\n", Color.red);
         appender.appendToPane("[Instruction]: DRINK! \n\n", Color.WHITE);
         soundPlayer.playSound("data/FrostmourneHungers.wav");
         Thread.sleep(7000);

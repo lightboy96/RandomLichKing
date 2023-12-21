@@ -22,12 +22,7 @@ import java.util.logging.Logger;
 
 public class RandomLichKing extends JFrame {
     //TODO: ADHERE TO OOP AND SOLID. THIS CLASS SHOULD ONLY HAVE THE main method
-    private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("HH:mm");
-    private static final SoundPlayer soundPlayer = new SoundPlayerImpl();
-    private static final LichKingUi ui = new LichKingUi();
-    private static final UiAppender uiAppender = new UiAppender(ui);
-    private static final service.logger.Logger logger = new ConsoleLogger();
-    private static final MessagePrinter messagePrinter = new MessagePrinter(uiAppender, soundPlayer, ui);
+
     static DateFormat newYearDateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private static boolean starting;
     private static boolean exiting;
@@ -40,26 +35,27 @@ public class RandomLichKing extends JFrame {
         newYear = false;
 
         // Prod wait times
-        //int minWait = 300000; // 5 min
-        //int maxWait = 1200000; // 20 min
+        /*int minWait = 300000; // 5 min
+        int maxWait = 1200000; // 20 min*/
 
         // Test wait times
         int minWait = 10000; // 10 sec
         int maxWait = 30000; // 30 sec
 
         LichKingUi ui = new LichKingUi();
-        ui.getKillButton().addActionListener(e -> KillButtonActionPerformed());
-
-        EventQueue.invokeLater(() -> ui.setVisible(true));
         SoundPlayerImpl soundPlayer = new SoundPlayerImpl();
         UiAppender appender = new UiAppender(ui);
         MessagePrinter messagePrinter = new MessagePrinter(appender, soundPlayer, ui);
+        service.logger.Logger logger = new ConsoleLogger();
+
+        EventQueue.invokeLater(() -> ui.setVisible(true));
+        ui.getKillButton().addActionListener(e -> KillButtonActionPerformed(messagePrinter));
 
         try {
             messagePrinter.printWelcomeMessage();
             messagePrinter.printDeathKnightsMessage();
 
-            Thread newYearThread = getNewYearThread(ui);
+            Thread newYearThread = getNewYearThread(ui, soundPlayer, logger, messagePrinter);
             newYearThread.start();
 
             while (!exiting) {
@@ -68,6 +64,7 @@ public class RandomLichKing extends JFrame {
                 }
 
                 getRandomYellWaitTime(maxWait, minWait);
+
 
                 if (!exiting && !newYear) {
                     messagePrinter.printYellMessage();
@@ -95,7 +92,7 @@ public class RandomLichKing extends JFrame {
         }
     }
 
-    private static Thread getNewYearThread(LichKingUi ui) {
+    private static Thread getNewYearThread(LichKingUi ui, SoundPlayer soundPlayer, service.logger.Logger logger, MessagePrinter messagePrinter) {
         Thread newYearThread;
         newYearThread = new Thread(() -> {
             try {
@@ -103,7 +100,7 @@ public class RandomLichKing extends JFrame {
                 String newYearDateString = currentYear + "-12-31 23:59:40";
 
                 //Testing Date:
-                Date testingDate = newYearDateFormatter.parse("2023-12-21 15:01:40");
+                Date testingDate = newYearDateFormatter.parse("2023-12-21 17:38:40");
 
                 //Production Date:
                 Date newYearDate = newYearDateFormatter.parse(newYearDateString);
@@ -117,11 +114,11 @@ public class RandomLichKing extends JFrame {
         return newYearThread;
     }
 
-    private static void KillButtonActionPerformed() {
+    private static void KillButtonActionPerformed(MessagePrinter messagePrinter) {
         Thread threadExit = new Thread(() -> {
             try {
                 exiting = true;
-                printKilledMessage();
+                messagePrinter.printKilledMessage();
 
                 System.exit(0);
 
@@ -134,12 +131,4 @@ public class RandomLichKing extends JFrame {
             threadExit.start();
     }
 
-    private static void printKilledMessage() throws InterruptedException {
-        Timestamp exitTimeStamp = new Timestamp(System.currentTimeMillis());
-        uiAppender.appendToPane("[" + SIMPLE_DATE_FORMAT.format(exitTimeStamp) + "] " + "Arthas says: I see... only... darkness... before... me... \n\n", Color.CYAN);
-        uiAppender.appendToPane("\n", Color.CYAN);
-
-        soundPlayer.playSound("data/OnlyDarkness.wav");
-        Thread.sleep(9000);
-    }
 }
