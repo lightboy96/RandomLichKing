@@ -2,12 +2,12 @@ package com.gdn.randomlichking;
 
 import com.gdn.randomlichking.audio.SoundPlayer;
 import com.gdn.randomlichking.audio.SoundPlayerImpl;
-import com.gdn.randomlichking.service.scheduledtasks.CriticalHitTask;
-import com.gdn.randomlichking.service.scheduledtasks.NewYearTask;
 import com.gdn.randomlichking.service.logger.ConsoleLogger;
 import com.gdn.randomlichking.service.logger.Logger;
 import com.gdn.randomlichking.service.printer.MessagePrinter;
 import com.gdn.randomlichking.service.printer.UiAppender;
+import com.gdn.randomlichking.service.scheduledtasks.CriticalHitTask;
+import com.gdn.randomlichking.service.scheduledtasks.NewYearTask;
 import com.gdn.randomlichking.ui.LichKingUi;
 
 import java.awt.*;
@@ -71,10 +71,11 @@ public class RandomLichKing {
 
             Thread newYearThread = getNewYearThread(ui, soundPlayer, logger, messagePrinter, newYearDateFormatter);
             newYearThread.start();
+            Thread criticalHitThread = scheduleCriticalHit(logger, messagePrinter);
+            criticalHitThread.start();
 
             while (!exiting) {
                 if (!newYear) {
-                    //scheduleCriticalHit(logger, messagePrinter);
                     messagePrinter.printDormantMessage();
                 }
 
@@ -102,7 +103,7 @@ public class RandomLichKing {
                 String newYearDateString = currentYear + "-12-31 23:59:40";
 
                 //Testing Date:
-                Date testingDate = newYearDateFormatter.parse("2023-12-22 18:53:50");
+                Date testingDate = newYearDateFormatter.parse("2023-12-22 20:25:50");
 
                 //Production Date:
                 //Date newYearDate = newYearDateFormatter.parse(newYearDateString);
@@ -116,9 +117,13 @@ public class RandomLichKing {
         return newYearThread;
     }
 
-    private static void scheduleCriticalHit(Logger logger, MessagePrinter messagePrinter) {
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new CriticalHitTask(logger, messagePrinter), 0, 3600000); //setting it to play once in an hour
+    private static Thread scheduleCriticalHit(Logger logger, MessagePrinter messagePrinter) {
+        Thread criticalHitThread;
+        criticalHitThread = new Thread(() -> {
+            Timer timer = new Timer();
+            timer.scheduleAtFixedRate(new CriticalHitTask(logger, messagePrinter), 3600000, 7200000); //setting it to play once in an hour
+        });
+        return criticalHitThread;
     }
 
     private static void KillButtonActionPerformed(MessagePrinter messagePrinter, Logger logger) {
@@ -133,7 +138,6 @@ public class RandomLichKing {
                 logger.logError(ex.getMessage());
             }
         });
-        if (!starting && !newYear)
-            exitThread.start();
+        if (!starting && !newYear) exitThread.start();
     }
 }

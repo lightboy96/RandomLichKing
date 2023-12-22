@@ -64,7 +64,7 @@ public class MessagePrinter {
     public void printCriticalHitMessage() throws InterruptedException {
         Timestamp criticalHitTimeStamp = new Timestamp(System.currentTimeMillis());
         appender.appendToPane("[" + SIMPLE_DATE_FORMAT.format(criticalHitTimeStamp) + "] " + "The Lich King roars: FINISH IT!!! \n\n", Color.red);
-        appender.appendToPane("[Instruction]: Drain your cup! \n\n", Color.WHITE);
+        appender.appendToPane("[Instruction]: Drain your cups! \n\n", Color.WHITE);
         soundPlayer.playSound("data/sound effects/Criticalhit.wav");
         Thread.sleep(3000);
     }
@@ -94,7 +94,7 @@ public class MessagePrinter {
         Thread.sleep(1000);
     }
 
-        public void printNewYearReward() throws  InterruptedException{
+    public void printNewYearReward() throws InterruptedException {
         appender.appendToPane("The Lich King says: Happy New Year, insects! \n\n", Color.CYAN);
         appender.appendToPane("\n", Color.CYAN);
         Thread.sleep(3500);
