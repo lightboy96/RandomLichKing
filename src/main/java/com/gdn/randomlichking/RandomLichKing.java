@@ -2,8 +2,8 @@ package com.gdn.randomlichking;
 
 import com.gdn.randomlichking.audio.SoundPlayer;
 import com.gdn.randomlichking.audio.SoundPlayerImpl;
-import com.gdn.randomlichking.service.CriticalHitTask;
-import com.gdn.randomlichking.service.NewYearTask;
+import com.gdn.randomlichking.service.scheduledtasks.CriticalHitTask;
+import com.gdn.randomlichking.service.scheduledtasks.NewYearTask;
 import com.gdn.randomlichking.service.logger.ConsoleLogger;
 import com.gdn.randomlichking.service.logger.Logger;
 import com.gdn.randomlichking.service.printer.MessagePrinter;
@@ -74,7 +74,7 @@ public class RandomLichKing {
 
             while (!exiting) {
                 if (!newYear) {
-                    scheduleCriticalHit(logger, messagePrinter);
+                    //scheduleCriticalHit(logger, messagePrinter);
                     messagePrinter.printDormantMessage();
                 }
 
@@ -102,7 +102,7 @@ public class RandomLichKing {
                 String newYearDateString = currentYear + "-12-31 23:59:40";
 
                 //Testing Date:
-                Date testingDate = newYearDateFormatter.parse("2023-12-21 17:38:40");
+                Date testingDate = newYearDateFormatter.parse("2023-12-22 18:53:50");
 
                 //Production Date:
                 //Date newYearDate = newYearDateFormatter.parse(newYearDateString);

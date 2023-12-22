@@ -16,7 +16,7 @@ public class LichKingUi extends javax.swing.JFrame {
     public LichKingUi() {
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setTitle("Wrath of the Booze King");
-        setIconImage(new ImageIcon("data/LichKingIcon.png").getImage());
+        setIconImage(new ImageIcon("data/images/LichKingIcon.png").getImage());
 
         jScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane.setViewportBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 10));
@@ -28,7 +28,7 @@ public class LichKingUi extends javax.swing.JFrame {
         consoleTextPane.setFocusable(false);
         jScrollPane.setViewportView(consoleTextPane);
 
-        gifLabel.setIcon(new ImageIcon("data/LichKingAnimatedWallpaper.gif"));
+        gifLabel.setIcon(new ImageIcon("data/images/LichKingAnimatedWallpaper.gif"));
 
         add(mainPanel);
         pack();

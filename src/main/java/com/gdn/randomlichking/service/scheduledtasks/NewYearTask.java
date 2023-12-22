@@ -1,4 +1,4 @@
-package com.gdn.randomlichking.service;
+package com.gdn.randomlichking.service.scheduledtasks;
 
 import com.gdn.randomlichking.RandomLichKing;
 import com.gdn.randomlichking.audio.SoundPlayer;
@@ -29,10 +29,11 @@ public class NewYearTask extends TimerTask {
             Thread.sleep(10000);
 
             messagePrinter.printNewYearCountDown();
-            messagePrinter.printAchievement();
-            displayFireWorks();
-            RandomLichKing.setNewYear(false);
+            messagePrinter.printNewYearReward();
 
+            displayFireWorks();
+
+            RandomLichKing.setNewYear(false);
 
         } catch (Exception ex) {
             logger.logError(ex.getMessage());
@@ -40,10 +41,10 @@ public class NewYearTask extends TimerTask {
     }
 
     private void displayFireWorks() throws InterruptedException {
-        ui.getGifLabel().setIcon(new ImageIcon("data/Fireworks.gif"));
-        soundPlayer.playSound("data/Fireworks.wav");
+        ui.getGifLabel().setIcon(new ImageIcon("data/images/Fireworks.gif"));
+        soundPlayer.playSound("data/sound effects/Fireworks.wav");
         Thread.sleep(60000);
-        ui.getGifLabel().setIcon(new ImageIcon("data/LichKingAnimatedWallpaper.gif"));
+        ui.getGifLabel().setIcon(new ImageIcon("data/images/LichKingAnimatedWallpaper.gif"));
     }
 
 }

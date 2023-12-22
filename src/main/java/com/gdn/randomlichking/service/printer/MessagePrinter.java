@@ -26,7 +26,7 @@ public class MessagePrinter {
         Timestamp welcomeTimeStamp = new Timestamp(System.currentTimeMillis());
         appender.appendToPane("[" + SIMPLE_DATE_FORMAT.format(welcomeTimeStamp) + "] " + "The Lich King says: I suppose a welcome is in order... So welcome, insects, welcome to MY WORLD! \n\n", Color.CYAN);
 
-        soundPlayer.playSound("data/Welcome.wav");
+        soundPlayer.playSound("data/sound effects/Welcome.wav");
         Thread.sleep(15000);
         RandomLichKing.setStarting(false);
 
@@ -36,7 +36,7 @@ public class MessagePrinter {
         Timestamp deathKnightTimeStamp = new Timestamp(System.currentTimeMillis());
         appender.appendToPane("[" + SIMPLE_DATE_FORMAT.format(deathKnightTimeStamp) + "] " + "The Lich King orders: Go now! And claim your destiny, Death Knight! \n\n", Color.red);
         appender.appendToPane("[Instruction]: Drink now! \n\n", Color.WHITE);
-        soundPlayer.playSound("data/DeathKnights.wav");
+        soundPlayer.playSound("data/sound effects/DeathKnights.wav");
         Thread.sleep(7000);
     }
 
@@ -49,7 +49,7 @@ public class MessagePrinter {
         Timestamp yellTimeStamp = new Timestamp(System.currentTimeMillis());
         appender.appendToPane("[" + SIMPLE_DATE_FORMAT.format(yellTimeStamp) + "] " + "The Lich King yells: Frostmourne hungers! \n\n", Color.red);
         appender.appendToPane("[Instruction]: DRINK! \n\n", Color.WHITE);
-        soundPlayer.playSound("data/FrostmourneHungers.wav");
+        soundPlayer.playSound("data/sound effects/FrostmourneHungers.wav");
         Thread.sleep(7000);
     }
 
@@ -57,7 +57,7 @@ public class MessagePrinter {
         Timestamp exitTimeStamp = new Timestamp(System.currentTimeMillis());
         appender.appendToPane("[" + SIMPLE_DATE_FORMAT.format(exitTimeStamp) + "] " + "Arthas says: I see... only... darkness... before... me... \n\n", Color.CYAN);
         appender.appendToPane("\n", Color.CYAN);
-        soundPlayer.playSound("data/OnlyDarkness.wav");
+        soundPlayer.playSound("data/sound effects/OnlyDarkness.wav");
         Thread.sleep(9000);
     }
 
@@ -65,25 +65,13 @@ public class MessagePrinter {
         Timestamp criticalHitTimeStamp = new Timestamp(System.currentTimeMillis());
         appender.appendToPane("[" + SIMPLE_DATE_FORMAT.format(criticalHitTimeStamp) + "] " + "The Lich King roars: FINISH IT!!! \n\n", Color.red);
         appender.appendToPane("[Instruction]: Drain your cup! \n\n", Color.WHITE);
-        soundPlayer.playSound("data/Criticalhit.wav");
+        soundPlayer.playSound("data/sound effects/Criticalhit.wav");
         Thread.sleep(3000);
-    }
-
-    public void printAchievement() throws InterruptedException {
-        appender.appendToPane("The Lich King says: Happy New Year, insects! \n\n", Color.CYAN);
-        appender.appendToPane("\n", Color.CYAN);
-        Thread.sleep(3000);
-        appender.appendToPane("Everyone have earned the achievement: ", Color.WHITE);
-        appender.appendToPane("[Happy New Year, Insects!]\n\n", Color.ORANGE);
-        appender.appendToPane("\n", Color.CYAN);
-        soundPlayer.playSound("data/AchievementSound.wav");
-        ui.getGifLabel().setIcon(new ImageIcon("data/Achi/Happy New Year Achievement.png"));
-        Thread.sleep(10000);
     }
 
     public void printNewYearCountDown() throws InterruptedException {
         Timestamp newYearTimeStamp = new Timestamp(System.currentTimeMillis());
-        soundPlayer.playSound("data/Lich King countdown.wav");
+        soundPlayer.playSound("data/sound effects/Lich King countdown.wav");
         appender.appendToPane("[" + SIMPLE_DATE_FORMAT.format(newYearTimeStamp) + "] " + "The Lich King says: 10 \n\n", Color.CYAN);
         Thread.sleep(1000);
         appender.appendToPane("The Lich King says: 9 \n\n", Color.CYAN);
@@ -104,5 +92,22 @@ public class MessagePrinter {
         Thread.sleep(1000);
         appender.appendToPane("The Lich King says: 1 \n\n", Color.CYAN);
         Thread.sleep(1000);
+    }
+
+        public void printNewYearReward() throws  InterruptedException{
+        appender.appendToPane("The Lich King says: Happy New Year, insects! \n\n", Color.CYAN);
+        appender.appendToPane("\n", Color.CYAN);
+        Thread.sleep(3500);
+
+        soundPlayer.playSound("data/sound effects/NewYearReward.wav");
+        appender.appendToPane("The Lich King says: You have done well, Death Knight... Arise... and accept, my gift! \n\n", Color.CYAN);
+        Thread.sleep(11000);
+
+        appender.appendToPane("Everyone have earned the achievement: ", Color.WHITE);
+        appender.appendToPane("[Happy New Year, Insects!]\n\n", Color.ORANGE);
+        appender.appendToPane("\n", Color.CYAN);
+        soundPlayer.playSound("data/sound effects/AchievementSound.wav");
+        ui.getGifLabel().setIcon(new ImageIcon("data/images/Achi/Happy New Year Achievement.png"));
+        Thread.sleep(10000);
     }
 }
