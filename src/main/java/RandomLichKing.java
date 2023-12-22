@@ -19,8 +19,6 @@ import java.util.Timer;
 
 
 public class RandomLichKing extends JFrame {
-    //TODO: ADHERE TO OOP AND SOLID. THIS CLASS SHOULD ONLY HAVE THE main method
-    static DateFormat newYearDateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private static boolean starting;
     private static boolean exiting;
     private static boolean newYear;
@@ -40,19 +38,24 @@ public class RandomLichKing extends JFrame {
         int maxWait = 30000; // 30 sec
 
         LichKingUi ui = new LichKingUi();
-        SoundPlayerImpl soundPlayer = new SoundPlayerImpl();
+        SoundPlayer soundPlayer = new SoundPlayerImpl();
         UiAppender appender = new UiAppender(ui);
-        MessagePrinter messagePrinter = new MessagePrinter(appender, soundPlayer, ui);
+        MessagePrinter messagePrinter = new MessagePrinter(appender, soundPlayer, ui, starting);
         Logger logger = new ConsoleLogger();
+        DateFormat newYearDateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         EventQueue.invokeLater(() -> ui.setVisible(true));
         ui.getKillButton().addActionListener(e -> KillButtonActionPerformed(messagePrinter, logger));
+        runApplication(messagePrinter, ui, soundPlayer, logger, newYearDateFormatter, maxWait, minWait);
 
+    }
+
+    private static void runApplication(MessagePrinter messagePrinter, LichKingUi ui, SoundPlayer soundPlayer, Logger logger, DateFormat newYearDateFormatter, int maxWait, int minWait) {
         try {
             messagePrinter.printWelcomeMessage();
             messagePrinter.printDeathKnightsMessage();
 
-            Thread newYearThread = getNewYearThread(ui, soundPlayer, logger, messagePrinter);
+            Thread newYearThread = getNewYearThread(ui, soundPlayer, logger, messagePrinter, newYearDateFormatter);
             newYearThread.start();
 
             while (!exiting) {
@@ -61,7 +64,6 @@ public class RandomLichKing extends JFrame {
                 }
 
                 getRandomYellWaitTime(maxWait, minWait);
-
 
                 if (!exiting && !newYear) {
                     messagePrinter.printYellMessage();
@@ -77,19 +79,7 @@ public class RandomLichKing extends JFrame {
         Thread.sleep(random);
     }
 
-    //TODO: implement this into the main method and make it yell the message from the MessagePrinter class
-    private static void getRandomCritTime(Logger logger) {
-        int minWait = 3600000;
-        int maxWait = 7200000;
-        int randomCritTime = new Random().nextInt((maxWait - minWait) + 1) + minWait;
-        try {
-            Thread.sleep(randomCritTime);
-        } catch (InterruptedException e) {
-            logger.logError(e.getMessage());
-        }
-    }
-
-    private static Thread getNewYearThread(LichKingUi ui, SoundPlayer soundPlayer, Logger logger, MessagePrinter messagePrinter) {
+    private static Thread getNewYearThread(LichKingUi ui, SoundPlayer soundPlayer, Logger logger, MessagePrinter messagePrinter, DateFormat newYearDateFormatter) {
         Thread newYearThread;
         newYearThread = new Thread(() -> {
             try {
@@ -100,10 +90,10 @@ public class RandomLichKing extends JFrame {
                 Date testingDate = newYearDateFormatter.parse("2023-12-21 17:38:40");
 
                 //Production Date:
-                Date newYearDate = newYearDateFormatter.parse(newYearDateString);
+                //Date newYearDate = newYearDateFormatter.parse(newYearDateString);
 
                 Timer timer = new Timer();
-                timer.schedule(new NewYearTask(ui, soundPlayer, logger, messagePrinter), testingDate /*newYearDate*/);
+                timer.schedule(new NewYearTask(ui, soundPlayer, logger, messagePrinter, newYear), testingDate /*newYearDate*/);
             } catch (ParseException ex) {
                 logger.logError(ex.getMessage());
             }
@@ -112,7 +102,7 @@ public class RandomLichKing extends JFrame {
     }
 
     private static void KillButtonActionPerformed(MessagePrinter messagePrinter, Logger logger) {
-        Thread threadExit = new Thread(() -> {
+        Thread exitThread = new Thread(() -> {
             try {
                 exiting = true;
                 messagePrinter.printKilledMessage();
@@ -123,8 +113,7 @@ public class RandomLichKing extends JFrame {
                 logger.logError(ex.getMessage());
             }
         });
-
         if (!starting && !newYear)
-            threadExit.start();
+            exitThread.start();
     }
 }

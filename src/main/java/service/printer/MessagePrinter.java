@@ -15,9 +15,9 @@ public class MessagePrinter {
     private final LichKingUi ui;
     private boolean starting;
 
-    public MessagePrinter(UiAppender appender, SoundPlayer soundPlayer, LichKingUi ui) {
+    public MessagePrinter(UiAppender appender, SoundPlayer soundPlayer, LichKingUi ui, boolean starting) {
         this.ui = ui;
-        this.starting = true;
+        this.starting = starting;
         this.appender = appender;
         this.soundPlayer = soundPlayer;
     }

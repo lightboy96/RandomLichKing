@@ -15,12 +15,12 @@ public class NewYearTask extends TimerTask {
     private final MessagePrinter messagePrinter;
     private boolean newYear;
 
-    public NewYearTask(LichKingUi ui, SoundPlayer soundPlayer, Logger logger, MessagePrinter messagePrinter) {
+    public NewYearTask(LichKingUi ui, SoundPlayer soundPlayer, Logger logger, MessagePrinter messagePrinter, boolean newYear) {
         this.ui = ui;
         this.soundPlayer = soundPlayer;
         this.logger = logger;
         this.messagePrinter = messagePrinter;
-        this.newYear = false;
+        this.newYear = newYear;
     }
 
     @Override
