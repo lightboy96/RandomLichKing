@@ -76,7 +76,7 @@ public class RandomLichKing {
                     messagePrinter.printDormantMessage();
                 }
 
-                getRandomYellWaitTime(maxWait, minWait);
+                sleepRandomTime(maxWait, minWait);
 
                 if (!exiting && !newYear) {
                     messagePrinter.printYellMessage();
@@ -87,7 +87,7 @@ public class RandomLichKing {
         }
     }
 
-    private static void getRandomYellWaitTime(int maxWait, int minWait) throws InterruptedException {
+    private static void sleepRandomTime(int maxWait, int minWait) throws InterruptedException {
         int random = new Random().nextInt((maxWait - minWait) + 1) + minWait;
         Thread.sleep(random);
     }
