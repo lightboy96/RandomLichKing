@@ -2,6 +2,7 @@ package com.gdn.randomlichking;
 
 import com.gdn.randomlichking.audio.SoundPlayer;
 import com.gdn.randomlichking.audio.SoundPlayerImpl;
+import com.gdn.randomlichking.service.CriticalHitTask;
 import com.gdn.randomlichking.service.NewYearTask;
 import com.gdn.randomlichking.service.logger.ConsoleLogger;
 import com.gdn.randomlichking.service.logger.Logger;
@@ -73,6 +74,7 @@ public class RandomLichKing {
 
             while (!exiting) {
                 if (!newYear) {
+                    scheduleCriticalHit(logger, messagePrinter);
                     messagePrinter.printDormantMessage();
                 }
 
@@ -112,6 +114,11 @@ public class RandomLichKing {
             }
         });
         return newYearThread;
+    }
+
+    private static void scheduleCriticalHit(Logger logger, MessagePrinter messagePrinter) {
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new CriticalHitTask(logger, messagePrinter), 0, 3600000); //setting it to play once in an hour
     }
 
     private static void KillButtonActionPerformed(MessagePrinter messagePrinter, Logger logger) {
