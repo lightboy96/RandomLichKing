@@ -1,4 +1,4 @@
-package ui;
+package com.gdn.randomlichking.ui;
 
 import javax.swing.*;
 import java.awt.*;

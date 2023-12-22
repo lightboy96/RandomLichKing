@@ -1,4 +1,4 @@
-package service.logger;
+package com.gdn.randomlichking.service.logger;
 
 import java.time.LocalDateTime;
 

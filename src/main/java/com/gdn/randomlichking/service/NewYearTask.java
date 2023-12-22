@@ -1,9 +1,10 @@
-package service;
+package com.gdn.randomlichking.service;
 
-import audio.SoundPlayer;
-import service.logger.Logger;
-import service.printer.MessagePrinter;
-import ui.LichKingUi;
+import com.gdn.randomlichking.RandomLichKing;
+import com.gdn.randomlichking.audio.SoundPlayer;
+import com.gdn.randomlichking.service.logger.Logger;
+import com.gdn.randomlichking.service.printer.MessagePrinter;
+import com.gdn.randomlichking.ui.LichKingUi;
 
 import javax.swing.*;
 import java.util.TimerTask;
@@ -13,27 +14,25 @@ public class NewYearTask extends TimerTask {
     private final SoundPlayer soundPlayer;
     private final Logger logger;
     private final MessagePrinter messagePrinter;
-    private boolean newYear;
 
-    public NewYearTask(LichKingUi ui, SoundPlayer soundPlayer, Logger logger, MessagePrinter messagePrinter, boolean newYear) {
+    public NewYearTask(LichKingUi ui, SoundPlayer soundPlayer, Logger logger, MessagePrinter messagePrinter) {
         this.ui = ui;
         this.soundPlayer = soundPlayer;
         this.logger = logger;
         this.messagePrinter = messagePrinter;
-        this.newYear = newYear;
     }
 
     @Override
     public void run() {
         try {
-            newYear = true;
+            RandomLichKing.setNewYear(true);
             Thread.sleep(10000);
 
             messagePrinter.printNewYearCountDown();
             messagePrinter.printAchievement();
             displayFireWorks();
+            RandomLichKing.setNewYear(false);
 
-            newYear = false;
 
         } catch (Exception ex) {
             logger.logError(ex.getMessage());

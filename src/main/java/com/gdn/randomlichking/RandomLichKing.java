@@ -1,13 +1,14 @@
-import audio.SoundPlayer;
-import audio.SoundPlayerImpl;
-import service.NewYearTask;
-import service.logger.ConsoleLogger;
-import service.logger.Logger;
-import service.printer.MessagePrinter;
-import service.printer.UiAppender;
-import ui.LichKingUi;
+package com.gdn.randomlichking;
 
-import javax.swing.*;
+import com.gdn.randomlichking.audio.SoundPlayer;
+import com.gdn.randomlichking.audio.SoundPlayerImpl;
+import com.gdn.randomlichking.service.NewYearTask;
+import com.gdn.randomlichking.service.logger.ConsoleLogger;
+import com.gdn.randomlichking.service.logger.Logger;
+import com.gdn.randomlichking.service.printer.MessagePrinter;
+import com.gdn.randomlichking.service.printer.UiAppender;
+import com.gdn.randomlichking.ui.LichKingUi;
+
 import java.awt.*;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -18,16 +19,28 @@ import java.util.Random;
 import java.util.Timer;
 
 
-public class RandomLichKing extends JFrame {
+public class RandomLichKing {
     private static boolean starting;
     private static boolean exiting;
     private static boolean newYear;
 
+    public static void setStarting(boolean starting) {
+        RandomLichKing.starting = starting;
+    }
+
+    public static void setExiting(boolean exiting) {
+        RandomLichKing.exiting = exiting;
+    }
+
+    public static void setNewYear(boolean newYear) {
+        RandomLichKing.newYear = newYear;
+    }
+
     public static void main(String[] args) {
 
-        starting = true;
-        exiting = false;
-        newYear = false;
+        setStarting(true);
+        setExiting(false);
+        setNewYear(false);
 
         // Prod wait times
         /*int minWait = 300000; // 5 min
@@ -40,7 +53,7 @@ public class RandomLichKing extends JFrame {
         LichKingUi ui = new LichKingUi();
         SoundPlayer soundPlayer = new SoundPlayerImpl();
         UiAppender appender = new UiAppender(ui);
-        MessagePrinter messagePrinter = new MessagePrinter(appender, soundPlayer, ui, starting);
+        MessagePrinter messagePrinter = new MessagePrinter(appender, soundPlayer, ui);
         Logger logger = new ConsoleLogger();
         DateFormat newYearDateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -93,7 +106,7 @@ public class RandomLichKing extends JFrame {
                 //Date newYearDate = newYearDateFormatter.parse(newYearDateString);
 
                 Timer timer = new Timer();
-                timer.schedule(new NewYearTask(ui, soundPlayer, logger, messagePrinter, newYear), testingDate /*newYearDate*/);
+                timer.schedule(new NewYearTask(ui, soundPlayer, logger, messagePrinter), testingDate /*newYearDate*/);
             } catch (ParseException ex) {
                 logger.logError(ex.getMessage());
             }
@@ -104,7 +117,7 @@ public class RandomLichKing extends JFrame {
     private static void KillButtonActionPerformed(MessagePrinter messagePrinter, Logger logger) {
         Thread exitThread = new Thread(() -> {
             try {
-                exiting = true;
+                setExiting(true);
                 messagePrinter.printKilledMessage();
 
                 System.exit(0);

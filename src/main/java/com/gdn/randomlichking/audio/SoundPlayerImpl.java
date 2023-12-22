@@ -1,7 +1,7 @@
-package audio;
+package com.gdn.randomlichking.audio;
 
-import service.logger.ConsoleLogger;
-import service.logger.Logger;
+import com.gdn.randomlichking.service.logger.ConsoleLogger;
+import com.gdn.randomlichking.service.logger.Logger;
 
 import javax.sound.sampled.*;
 import java.io.File;
@@ -18,10 +18,7 @@ public class SoundPlayerImpl implements SoundPlayer {
             clip.open(audioInputStream);
             clip.start();
 
-            while (clip.isRunning()) {
-                Thread.sleep(clip.getMicrosecondLength());
-            }
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException | InterruptedException e) {
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             logger.logError(e.getMessage());
         }
     }

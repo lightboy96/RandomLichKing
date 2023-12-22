@@ -1,7 +1,8 @@
-package service.printer;
+package com.gdn.randomlichking.service.printer;
 
-import audio.SoundPlayer;
-import ui.LichKingUi;
+import com.gdn.randomlichking.RandomLichKing;
+import com.gdn.randomlichking.audio.SoundPlayer;
+import com.gdn.randomlichking.ui.LichKingUi;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,11 +14,10 @@ public class MessagePrinter {
     private final UiAppender appender;
     private final SoundPlayer soundPlayer;
     private final LichKingUi ui;
-    private boolean starting;
 
-    public MessagePrinter(UiAppender appender, SoundPlayer soundPlayer, LichKingUi ui, boolean starting) {
+
+    public MessagePrinter(UiAppender appender, SoundPlayer soundPlayer, LichKingUi ui) {
         this.ui = ui;
-        this.starting = starting;
         this.appender = appender;
         this.soundPlayer = soundPlayer;
     }
@@ -28,7 +28,8 @@ public class MessagePrinter {
 
         soundPlayer.playSound("data/Welcome.wav");
         Thread.sleep(15000);
-        starting = false;
+        RandomLichKing.setStarting(false);
+
     }
 
     public void printDeathKnightsMessage() throws InterruptedException {

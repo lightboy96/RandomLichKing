@@ -1,6 +1,6 @@
-package service.printer;
+package com.gdn.randomlichking.service.printer;
 
-import ui.LichKingUi;
+import com.gdn.randomlichking.ui.LichKingUi;
 
 import javax.swing.text.AttributeSet;
 import javax.swing.text.SimpleAttributeSet;
