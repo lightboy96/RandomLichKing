@@ -18,7 +18,6 @@ public class LichKingUi extends javax.swing.JFrame {
         setTitle("Wrath of the Booze King");
         setIconImage(new ImageIcon("data/LichKingIcon.png").getImage());
 
-
         jScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane.setViewportBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 10));
 
