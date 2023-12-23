@@ -29,20 +29,20 @@ public class RandomLichKing {
         return exiting;
     }
 
-    public static boolean isNewYear() {
-        return newYear;
-    }
-
-    public static void setStarting(boolean starting) {
-        RandomLichKing.starting = starting;
-    }
-
     public static void setExiting(boolean exiting) {
         RandomLichKing.exiting = exiting;
     }
 
+    public static boolean isNewYear() {
+        return newYear;
+    }
+
     public static void setNewYear(boolean newYear) {
         RandomLichKing.newYear = newYear;
+    }
+
+    public static void setStarting(boolean starting) {
+        RandomLichKing.starting = starting;
     }
 
     public static void main(String[] args) {
@@ -111,7 +111,7 @@ public class RandomLichKing {
                 String newYearDateString = currentYear + "-12-31 23:59:40";
 
                 //Testing Date:
-                Date testingDate = newYearDateFormatter.parse("2023-12-22 20:25:50");
+                /*Date testingDate = newYearDateFormatter.parse("2023-12-22 20:25:50");*/
 
                 //Production Date:
                 Date newYearDate = newYearDateFormatter.parse(newYearDateString);
