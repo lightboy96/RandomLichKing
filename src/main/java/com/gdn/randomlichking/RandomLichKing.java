@@ -25,6 +25,14 @@ public class RandomLichKing {
     private static boolean exiting;
     private static boolean newYear;
 
+    public static boolean isExiting() {
+        return exiting;
+    }
+
+    public static boolean isNewYear() {
+        return newYear;
+    }
+
     public static void setStarting(boolean starting) {
         RandomLichKing.starting = starting;
     }
@@ -106,10 +114,10 @@ public class RandomLichKing {
                 Date testingDate = newYearDateFormatter.parse("2023-12-22 20:25:50");
 
                 //Production Date:
-                //Date newYearDate = newYearDateFormatter.parse(newYearDateString);
+                Date newYearDate = newYearDateFormatter.parse(newYearDateString);
 
                 Timer timer = new Timer();
-                timer.schedule(new NewYearTask(ui, soundPlayer, logger, messagePrinter), testingDate /*newYearDate*/);
+                timer.schedule(new NewYearTask(ui, soundPlayer, logger, messagePrinter), newYearDate);
             } catch (ParseException ex) {
                 logger.logError(ex.getMessage());
             }

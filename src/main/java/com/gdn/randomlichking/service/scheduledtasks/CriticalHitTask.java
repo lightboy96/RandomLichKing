@@ -1,5 +1,6 @@
 package com.gdn.randomlichking.service.scheduledtasks;
 
+import com.gdn.randomlichking.RandomLichKing;
 import com.gdn.randomlichking.service.logger.Logger;
 import com.gdn.randomlichking.service.printer.MessagePrinter;
 
@@ -18,7 +19,8 @@ public class CriticalHitTask extends TimerTask {
     @Override
     public void run() {
         try {
-            messagePrinter.printCriticalHitMessage();
+            if (!RandomLichKing.isNewYear() && !RandomLichKing.isExiting())
+                messagePrinter.printCriticalHitMessage();
 
         } catch (Exception exception) {
             logger.logError(exception.getMessage());
