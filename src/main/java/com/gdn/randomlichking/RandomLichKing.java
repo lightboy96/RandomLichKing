@@ -53,12 +53,12 @@ public class RandomLichKing {
         setNewYear(false);
 
         // Prod wait times
-        /*int minWait = 300000; // 5 min
-        int maxWait = 1200000; // 20 min*/
+        int minWait = 300000; // 5 min
+        int maxWait = 1200000; // 20 min
 
         // Test wait times
-        int minWait = 10000; // 10 sec
-        int maxWait = 30000; // 30 sec
+        /*int minWait = 10000; // 10 sec
+        int maxWait = 30000; // 30 sec*/
 
         LichKingUi ui = new LichKingUi();
         SoundPlayer soundPlayer = new SoundPlayerImpl();

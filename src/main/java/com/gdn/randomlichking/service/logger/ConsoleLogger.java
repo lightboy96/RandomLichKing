@@ -15,5 +15,6 @@ public class ConsoleLogger implements Logger {
 
     private void logMessage(String message, String type) {
         String entry = String.format("[%s] %s: %s", LocalDateTime.now(), type, message);
+        System.out.println(entry);
     }
 }
