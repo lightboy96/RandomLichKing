@@ -27,12 +27,13 @@ nbproject/private/private.xml
 
 .idea/
 *.iml
+target/
 
-.dist/
+dist/
 
-.build/
+build/
 
-.lib/
+lib/
 
 # Video files
 *.mp4
