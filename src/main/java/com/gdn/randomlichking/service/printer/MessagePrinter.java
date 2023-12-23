@@ -110,4 +110,11 @@ public class MessagePrinter {
         ui.getGifLabel().setIcon(new ImageIcon("data/images/Achi/Happy New Year Achievement.png"));
         Thread.sleep(10000);
     }
+
+    public void printValkyrMessage() throws InterruptedException {
+        Timestamp valkyrTimeStamp = new Timestamp(System.currentTimeMillis());
+        soundPlayer.playSound("data/sound effects/Valkyr.wav");
+        appender.appendToPane("[" + SIMPLE_DATE_FORMAT.format(valkyrTimeStamp) + "] " + "The Lich King says: Valkyr... your master CALLS!", Color.RED);
+        Thread.sleep(6000);
+    }
 }

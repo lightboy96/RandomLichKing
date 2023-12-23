@@ -8,6 +8,7 @@ import com.gdn.randomlichking.service.printer.MessagePrinter;
 import com.gdn.randomlichking.service.printer.UiAppender;
 import com.gdn.randomlichking.service.scheduledtasks.CriticalHitTask;
 import com.gdn.randomlichking.service.scheduledtasks.NewYearTask;
+import com.gdn.randomlichking.service.scheduledtasks.ValkyrTask;
 import com.gdn.randomlichking.ui.LichKingUi;
 
 import java.awt.*;
@@ -81,6 +82,8 @@ public class RandomLichKing {
             newYearThread.start();
             Thread criticalHitThread = scheduleCriticalHit(logger, messagePrinter);
             criticalHitThread.start();
+            /*Thread valkyrThread = scheduleValkyr(messagePrinter, logger);
+            valkyrThread.start();*/
 
             while (!exiting) {
                 if (!newYear) {
@@ -132,6 +135,15 @@ public class RandomLichKing {
             timer.scheduleAtFixedRate(new CriticalHitTask(logger, messagePrinter), 3600000, 7200000); //setting it to play once in an hour
         });
         return criticalHitThread;
+    }
+
+    private static Thread scheduleValkyr(MessagePrinter messagePrinter, Logger logger) {
+        Thread valkyrThread;
+        valkyrThread = new Thread(() -> {
+            Timer timer = new Timer();
+            timer.scheduleAtFixedRate(new ValkyrTask(messagePrinter, logger), 0, 3600000); //Temporary timing, will be tweaked sometime
+        });
+        return valkyrThread;
     }
 
     private static void KillButtonActionPerformed(MessagePrinter messagePrinter, Logger logger) {
