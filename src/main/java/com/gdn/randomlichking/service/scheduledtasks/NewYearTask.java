@@ -8,23 +8,27 @@ import com.gdn.randomlichking.ui.LichKingUi;
 
 import javax.swing.*;
 import java.util.TimerTask;
+import java.util.concurrent.Semaphore;
 
 public class NewYearTask extends TimerTask {
     private final LichKingUi ui;
     private final SoundPlayer soundPlayer;
     private final Logger logger;
     private final MessagePrinter messagePrinter;
+    private final Semaphore mutex;
 
-    public NewYearTask(LichKingUi ui, SoundPlayer soundPlayer, Logger logger, MessagePrinter messagePrinter) {
+    public NewYearTask(LichKingUi ui, SoundPlayer soundPlayer, Logger logger, MessagePrinter messagePrinter, Semaphore mutex) {
         this.ui = ui;
         this.soundPlayer = soundPlayer;
         this.logger = logger;
         this.messagePrinter = messagePrinter;
+        this.mutex = mutex;
     }
 
     @Override
     public void run() {
         try {
+            mutex.acquire();
             RandomLichKing.setNewYear(true);
             Thread.sleep(10000);
 
@@ -35,8 +39,13 @@ public class NewYearTask extends TimerTask {
 
             RandomLichKing.setNewYear(false);
 
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            logger.logError(e.getMessage());
         } catch (Exception ex) {
             logger.logError(ex.getMessage());
+        } finally {
+            mutex.release();
         }
     }
 

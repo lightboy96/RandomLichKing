@@ -19,12 +19,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 import java.util.Timer;
+import java.util.concurrent.Semaphore;
 
 
 public class RandomLichKing {
     private static boolean starting;
     private static boolean exiting;
     private static boolean newYear;
+
 
     public static boolean isExiting() {
         return exiting;
@@ -66,24 +68,27 @@ public class RandomLichKing {
         MessagePrinter messagePrinter = new MessagePrinter(appender, soundPlayer, ui);
         Logger logger = new ConsoleLogger();
         DateFormat newYearDateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Semaphore mutex = new Semaphore(1);
 
         EventQueue.invokeLater(() -> ui.setVisible(true));
         ui.getKillButton().addActionListener(e -> KillButtonActionPerformed(messagePrinter, logger));
-        runApplication(messagePrinter, ui, soundPlayer, logger, newYearDateFormatter, maxWait, minWait);
+        runApplication(messagePrinter, ui, soundPlayer, logger, newYearDateFormatter, maxWait, minWait, mutex);
 
     }
 
-    private static void runApplication(MessagePrinter messagePrinter, LichKingUi ui, SoundPlayer soundPlayer, Logger logger, DateFormat newYearDateFormatter, int maxWait, int minWait) {
+    private static void runApplication(MessagePrinter messagePrinter, LichKingUi ui, SoundPlayer soundPlayer, Logger logger, DateFormat newYearDateFormatter, int maxWait, int minWait, Semaphore mutex) {
         try {
             messagePrinter.printWelcomeMessage();
             messagePrinter.printDeathKnightsMessage();
 
-            Thread newYearThread = getNewYearThread(ui, soundPlayer, logger, messagePrinter, newYearDateFormatter);
+            //Threads:
+            Thread newYearThread = scheduelNewYear(ui, soundPlayer, logger, messagePrinter, newYearDateFormatter, mutex);
             newYearThread.start();
-            Thread criticalHitThread = scheduleCriticalHit(logger, messagePrinter);
+            Thread criticalHitThread = scheduleCriticalHit(logger, messagePrinter, mutex);
             criticalHitThread.start();
-            /*Thread valkyrThread = scheduleValkyr(messagePrinter, logger);
+            /*Thread valkyrThread = scheduleValkyr(messagePrinter, logger, mutex);
             valkyrThread.start();*/
+
 
             while (!exiting) {
                 if (!newYear) {
@@ -106,9 +111,8 @@ public class RandomLichKing {
         Thread.sleep(random);
     }
 
-    private static Thread getNewYearThread(LichKingUi ui, SoundPlayer soundPlayer, Logger logger, MessagePrinter messagePrinter, DateFormat newYearDateFormatter) {
-        Thread newYearThread;
-        newYearThread = new Thread(() -> {
+    private static Thread scheduelNewYear(LichKingUi ui, SoundPlayer soundPlayer, Logger logger, MessagePrinter messagePrinter, DateFormat newYearDateFormatter, Semaphore mutex) {
+        return new Thread(() -> {
             try {
                 int currentYear = Calendar.getInstance().get(Calendar.YEAR);
                 String newYearDateString = currentYear + "-12-31 23:59:40";
@@ -120,30 +124,26 @@ public class RandomLichKing {
                 Date newYearDate = newYearDateFormatter.parse(newYearDateString);
 
                 Timer timer = new Timer();
-                timer.schedule(new NewYearTask(ui, soundPlayer, logger, messagePrinter), newYearDate);
+                timer.schedule(new NewYearTask(ui, soundPlayer, logger, messagePrinter, mutex), newYearDate);
             } catch (ParseException ex) {
                 logger.logError(ex.getMessage());
             }
         });
-        return newYearThread;
     }
 
-    private static Thread scheduleCriticalHit(Logger logger, MessagePrinter messagePrinter) {
-        Thread criticalHitThread;
-        criticalHitThread = new Thread(() -> {
+    private static Thread scheduleCriticalHit(Logger logger, MessagePrinter messagePrinter, Semaphore mutex) {
+        return new Thread(() -> {
             Timer timer = new Timer();
-            timer.scheduleAtFixedRate(new CriticalHitTask(logger, messagePrinter), 3600000, 7200000); //setting it to play once in an hour
+            timer.scheduleAtFixedRate(new CriticalHitTask(logger, messagePrinter, mutex), 3600000, 7200000); //setting it to play once in an hour
         });
-        return criticalHitThread;
+
     }
 
-    private static Thread scheduleValkyr(MessagePrinter messagePrinter, Logger logger) {
-        Thread valkyrThread;
-        valkyrThread = new Thread(() -> {
+    private static Thread scheduleValkyr(MessagePrinter messagePrinter, Logger logger, Semaphore mutex) {
+        return new Thread(() -> {
             Timer timer = new Timer();
-            timer.scheduleAtFixedRate(new ValkyrTask(messagePrinter, logger), 0, 3600000); //Temporary timing, will be tweaked sometime
+            timer.scheduleAtFixedRate(new ValkyrTask(messagePrinter, logger, mutex), 3600000, 10800000); //Temporary timing, will be tweaked sometime
         });
-        return valkyrThread;
     }
 
     private static void KillButtonActionPerformed(MessagePrinter messagePrinter, Logger logger) {
